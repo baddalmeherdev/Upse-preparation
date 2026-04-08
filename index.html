@@ -1,0 +1,2751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CivilEdge — UPSC Civil Services Preparation</title>
+<style>
+  /* =============================================
+     CSS CUSTOM PROPERTIES & THEMING
+  ============================================= */
+  :root {
+    --bg-primary: #f4f6fb;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --bg-sidebar: #0d1b2a;
+    --bg-sidebar-hover: #1a2f45;
+    --bg-header: #ffffff;
+    --text-primary: #1a202c;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+    --text-sidebar: #cbd5e0;
+    --text-sidebar-active: #ffffff;
+    --accent: #e8821a;
+    --accent-light: #fef3e2;
+    --accent-dark: #c96b0f;
+    --accent2: #1a56db;
+    --accent2-light: #ebf5ff;
+    --border: #e2e8f0;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.06);
+    --sidebar-width: 260px;
+    --header-height: 64px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+    --font-display: Georgia, 'Times New Roman', serif;
+    --font-body: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --font-mono: 'Courier New', monospace;
+  }
+
+  [data-theme="dark"] {
+    --bg-primary: #0d1117;
+    --bg-secondary: #161b22;
+    --bg-card: #1c2333;
+    --bg-sidebar: #010409;
+    --bg-sidebar-hover: #161b22;
+    --bg-header: #161b22;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-muted: #6e7681;
+    --text-sidebar: #8b949e;
+    --text-sidebar-active: #e6edf3;
+    --accent: #f0973a;
+    --accent-light: #1f1209;
+    --accent-dark: #e8821a;
+    --accent2: #58a6ff;
+    --accent2-light: #0d1f38;
+    --border: #30363d;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.6);
+  }
+
+  /* =============================================
+     RESET & BASE
+  ============================================= */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body {
+    font-family: var(--font-body);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    transition: background 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+  }
+  a { text-decoration: none; color: inherit; }
+  button { cursor: pointer; font-family: var(--font-body); border: none; background: none; }
+  input, textarea { font-family: var(--font-body); }
+  ul { list-style: none; }
+  img { max-width: 100%; display: block; }
+
+  /* =============================================
+     SCROLLBAR
+  ============================================= */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-primary); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+  /* =============================================
+     LAYOUT SHELL
+  ============================================= */
+  .app-shell {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* =============================================
+     SIDEBAR
+  ============================================= */
+  .sidebar {
+    width: var(--sidebar-width);
+    background: var(--bg-sidebar);
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--accent), #f0b74a);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    display: flex; flex-direction: column;
+    line-height: 1.1;
+  }
+  .logo-text strong {
+    color: #fff;
+    font-size: 17px;
+    font-family: var(--font-display);
+    letter-spacing: -0.3px;
+  }
+  .logo-text span {
+    color: rgba(255,255,255,0.45);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .sidebar-nav { flex: 1; padding: 16px 0; }
+
+  .nav-section-label {
+    padding: 8px 20px 4px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    color: rgba(255,255,255,0.25);
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 20px;
+    color: var(--text-sidebar);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    border-left: 3px solid transparent;
+    position: relative;
+  }
+  .nav-item:hover {
+    background: var(--bg-sidebar-hover);
+    color: #fff;
+  }
+  .nav-item.active {
+    background: var(--bg-sidebar-hover);
+    color: #fff;
+    border-left-color: var(--accent);
+  }
+  .nav-item .nav-icon {
+    width: 20px; height: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .nav-badge {
+    margin-left: auto;
+    background: var(--accent);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 20px;
+  }
+
+  .sidebar-footer {
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .sidebar-footer-info {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .avatar {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent), #1a56db);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 700; font-size: 14px;
+    flex-shrink: 0;
+  }
+  .user-info strong { color: #fff; font-size: 13px; display: block; }
+  .user-info span { color: rgba(255,255,255,0.4); font-size: 11px; }
+
+  /* =============================================
+     HEADER
+  ============================================= */
+  .header {
+    position: fixed;
+    top: 0;
+    left: var(--sidebar-width);
+    right: 0;
+    height: var(--header-height);
+    background: var(--bg-header);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+    z-index: 100;
+    transition: background 0.3s ease, left 0.3s ease;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 6px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px; height: 2px;
+    background: var(--text-primary);
+    border-radius: 2px;
+    transition: var(--transition);
+  }
+
+  .search-bar {
+    flex: 1;
+    max-width: 480px;
+    position: relative;
+  }
+  .search-bar input {
+    width: 100%;
+    padding: 9px 16px 9px 40px;
+    border: 1.5px solid var(--border);
+    border-radius: 24px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: var(--transition);
+    outline: none;
+  }
+  .search-bar input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-light);
+  }
+  .search-icon {
+    position: absolute;
+    left: 14px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 15px;
+    pointer-events: none;
+  }
+
+  .search-results {
+    position: absolute;
+    top: calc(100% + 8px); left: 0; right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    max-height: 320px;
+    overflow-y: auto;
+    display: none;
+    z-index: 999;
+  }
+  .search-results.open { display: block; }
+  .search-result-item {
+    padding: 10px 16px;
+    display: flex; align-items: center; gap: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    transition: var(--transition);
+  }
+  .search-result-item:last-child { border-bottom: none; }
+  .search-result-item:hover { background: var(--bg-primary); }
+  .search-result-item .sri-icon { font-size: 16px; }
+  .search-result-item .sri-label { font-weight: 500; }
+  .search-result-item .sri-sub { font-size: 11px; color: var(--text-muted); }
+
+  .header-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+
+  .icon-btn {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    font-size: 16px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .icon-btn:hover {
+    background: var(--accent-light);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .theme-toggle {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 12px;
+    border-radius: 24px;
+    background: var(--bg-primary);
+    border: 1.5px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* =============================================
+     MAIN CONTENT
+  ============================================= */
+  .main-content {
+    margin-left: var(--sidebar-width);
+    margin-top: var(--header-height);
+    flex: 1;
+    min-height: calc(100vh - var(--header-height));
+    transition: margin-left 0.3s ease;
+  }
+
+  /* =============================================
+     SECTIONS / SPA ROUTING
+  ============================================= */
+  .section { display: none; }
+  .section.active {
+    display: block;
+    animation: fadeInUp 0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .page-pad { padding: 32px 28px; }
+
+  /* =============================================
+     UTILITY CLASSES
+  ============================================= */
+  .card {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .card:hover { box-shadow: var(--shadow-md); }
+
+  .badge {
+    display: inline-flex; align-items: center;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .badge-accent { background: var(--accent-light); color: var(--accent); }
+  .badge-blue { background: var(--accent2-light); color: var(--accent2); }
+  .badge-green { background: #d1fae5; color: #065f46; }
+  .badge-red { background: #fee2e2; color: #991b1b; }
+  [data-theme="dark"] .badge-green { background: #064e3b; color: #6ee7b7; }
+  [data-theme="dark"] .badge-red { background: #450a0a; color: #fca5a5; }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+  .section-subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(232,130,26,0.35); }
+  .btn-outline {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-blue { background: var(--accent2); color: #fff; }
+  .btn-blue:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* =============================================
+     OVERLAY (mobile sidebar)
+  ============================================= */
+  .overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 150;
+  }
+  .overlay.open { display: block; }
+
+  /* =============================================
+     HOME / DASHBOARD
+  ============================================= */
+  .hero-banner {
+    background: linear-gradient(135deg, #0d1b2a 0%, #1a2f45 40%, #0d1b2a 100%);
+    border-radius: var(--radius-lg);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .hero-banner::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: 
+      radial-gradient(ellipse at 70% 50%, rgba(232,130,26,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 20%, rgba(26,86,219,0.15) 0%, transparent 50%);
+  }
+  .hero-pattern {
+    position: absolute; right: -20px; top: -20px;
+    width: 320px; height: 320px;
+    opacity: 0.04;
+    background-image: repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%);
+    background-size: 20px 20px;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 600px; }
+  .hero-label {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(232,130,26,0.2);
+    border: 1px solid rgba(232,130,26,0.3);
+    color: #f0b74a;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+  .hero-title span { color: var(--accent); }
+  .hero-desc { color: rgba(255,255,255,0.65); font-size: 15px; line-height: 1.7; margin-bottom: 24px; max-width: 480px; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-cta {
+    padding: 12px 28px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .hero-cta-primary { background: var(--accent); color: #fff; border: none; }
+  .hero-cta-primary:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,130,26,0.4); }
+  .hero-cta-secondary { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(4px); }
+  .hero-cta-secondary:hover { background: rgba(255,255,255,0.2); }
+
+  .hero-countdown {
+    position: absolute; right: 36px; top: 50%; transform: translateY(-50%);
+    text-align: center; z-index: 1;
+  }
+  .countdown-ring {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    border: 3px solid rgba(232,130,26,0.3);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative;
+    background: rgba(13,27,42,0.6);
+    backdrop-filter: blur(8px);
+  }
+  .countdown-ring::before {
+    content: '';
+    position: absolute; inset: 4px;
+    border-radius: 50%;
+    border: 2px dashed rgba(232,130,26,0.2);
+  }
+  .countdown-number { font-size: 38px; font-weight: 800; color: var(--accent); font-family: var(--font-display); line-height: 1; }
+  .countdown-label { font-size: 11px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+  .countdown-sub { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    display: flex; align-items: flex-start; gap: 14px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+  }
+  .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .stat-icon {
+    width: 44px; height: 44px;
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .stat-icon.orange { background: var(--accent-light); }
+  .stat-icon.blue { background: var(--accent2-light); }
+  .stat-icon.green { background: #d1fae5; }
+  .stat-icon.purple { background: #ede9fe; }
+  [data-theme="dark"] .stat-icon.green { background: #064e3b; }
+  [data-theme="dark"] .stat-icon.purple { background: #1e1b4b; }
+  .stat-info strong { display: block; font-size: 22px; font-weight: 800; font-family: var(--font-display); color: var(--text-primary); line-height: 1; }
+  .stat-info span { font-size: 12px; color: var(--text-muted); margin-top: 4px; display: block; }
+  .stat-info small { font-size: 11px; color: #10b981; font-weight: 600; }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+
+  .quote-card {
+    background: linear-gradient(135deg, var(--bg-sidebar) 0%, #1a2f45 100%);
+    border-radius: var(--radius-md);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .quote-card::before {
+    content: '"';
+    position: absolute; top: -10px; left: 16px;
+    font-size: 120px;
+    font-family: var(--font-display);
+    color: rgba(232,130,26,0.15);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .quote-text { font-family: var(--font-display); font-size: 16px; font-style: italic; color: rgba(255,255,255,0.85); line-height: 1.7; position: relative; z-index: 1; margin-bottom: 16px; }
+  .quote-author { font-size: 13px; color: var(--accent); font-weight: 600; }
+  .quote-date { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 4px; }
+
+  .recent-activity { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow-sm); }
+  .widget-title { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .activity-list { display: flex; flex-direction: column; gap: 12px; }
+  .activity-item { display: flex; align-items: flex-start; gap: 12px; }
+  .activity-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-top: 6px; flex-shrink: 0; }
+  .activity-dot.blue { background: var(--accent2); }
+  .activity-dot.green { background: #10b981; }
+  .activity-text { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+  .activity-time { font-size: 11px; color: var(--text-muted); }
+
+  .todays-target-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow-sm); }
+  .target-progress-bar { height: 8px; background: var(--bg-primary); border-radius: 4px; overflow: hidden; margin: 10px 0 6px; }
+  .target-progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--accent), #f0b74a); transition: width 0.5s ease; }
+  .target-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-secondary); }
+  .target-item:last-child { border-bottom: none; }
+  .target-item input[type=checkbox] { accent-color: var(--accent); width: 16px; height: 16px; flex-shrink: 0; cursor: pointer; }
+  .target-item.done span { text-decoration: line-through; color: var(--text-muted); }
+
+  /* =============================================
+     SUBJECTS / NOTES
+  ============================================= */
+  .subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+
+  .subject-card {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-sm);
+  }
+  .subject-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+
+  .subject-card-header {
+    padding: 24px 20px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .subject-card-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    opacity: 0.12;
+    background-image: repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%);
+    background-size: 14px 14px;
+  }
+  .sc-icon { font-size: 36px; margin-bottom: 12px; position: relative; z-index: 1; }
+  .sc-title { font-size: 18px; font-weight: 700; color: #fff; font-family: var(--font-display); position: relative; z-index: 1; }
+  .sc-topics { font-size: 12px; color: rgba(255,255,255,0.7); position: relative; z-index: 1; margin-top: 4px; }
+  .subject-card-body { padding: 16px 20px; }
+  .sc-meta { display: flex; gap: 12px; font-size: 12px; color: var(--text-muted); }
+  .sc-meta span { display: flex; align-items: center; gap: 4px; }
+  .sc-progress { margin: 12px 0 4px; }
+  .sc-progress-bar { height: 6px; background: var(--bg-primary); border-radius: 3px; overflow: hidden; }
+  .sc-progress-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+
+  /* subject color themes */
+  .s-history .subject-card-header { background: linear-gradient(135deg, #7c3aed, #4c1d95); }
+  .s-history .sc-progress-fill { background: #7c3aed; }
+  .s-polity .subject-card-header { background: linear-gradient(135deg, #1a56db, #1e40af); }
+  .s-polity .sc-progress-fill { background: #1a56db; }
+  .s-geography .subject-card-header { background: linear-gradient(135deg, #059669, #064e3b); }
+  .s-geography .sc-progress-fill { background: #059669; }
+  .s-economy .subject-card-header { background: linear-gradient(135deg, #e8821a, #92400e); }
+  .s-economy .sc-progress-fill { background: #e8821a; }
+  .s-environment .subject-card-header { background: linear-gradient(135deg, #10b981, #065f46); }
+  .s-environment .sc-progress-fill { background: #10b981; }
+  .s-science .subject-card-header { background: linear-gradient(135deg, #ef4444, #7f1d1d); }
+  .s-science .sc-progress-fill { background: #ef4444; }
+
+  /* SUBJECT DETAIL VIEW */
+  .subject-detail { display: none; }
+  .subject-detail.open { display: block; animation: fadeInUp 0.3s ease; }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; font-weight: 600; color: var(--text-muted);
+    cursor: pointer; margin-bottom: 20px; padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+  }
+  .back-btn:hover { background: var(--bg-card); color: var(--accent); }
+
+  .subject-detail-header {
+    border-radius: var(--radius-md);
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .sdh-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.7; margin-bottom: 8px; }
+  .sdh-title { font-family: var(--font-display); font-size: 30px; font-weight: 700; margin-bottom: 8px; }
+  .sdh-desc { font-size: 14px; opacity: 0.75; max-width: 600px; line-height: 1.7; }
+
+  .notes-tabs { display: flex; gap: 4px; margin-bottom: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px; width: fit-content; }
+  .notes-tab {
+    padding: 8px 18px; border-radius: 6px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    color: var(--text-muted); transition: var(--transition);
+  }
+  .notes-tab.active { background: var(--accent); color: #fff; }
+
+  .notes-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 28px; box-shadow: var(--shadow-sm); }
+  .notes-content h3 { font-family: var(--font-display); font-size: 18px; color: var(--text-primary); margin: 20px 0 10px; }
+  .notes-content h3:first-child { margin-top: 0; }
+  .notes-content p { font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 14px; }
+  .notes-content ul { padding-left: 20px; margin-bottom: 14px; }
+  .notes-content ul li { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 6px; list-style: disc; }
+  .notes-content ul li::marker { color: var(--accent); }
+  .notes-content .highlight-box {
+    background: var(--accent-light);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: var(--text-primary);
+  }
+  .notes-tab-content { display: none; }
+  .notes-tab-content.active { display: block; }
+
+  /* =============================================
+     CURRENT AFFAIRS
+  ============================================= */
+  .ca-filter-row { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+  .ca-filter-btn {
+    padding: 7px 16px; border-radius: 20px;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    border: 1.5px solid var(--border);
+    background: var(--bg-card); color: var(--text-secondary);
+    transition: var(--transition);
+  }
+  .ca-filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .ca-timeline { position: relative; padding-left: 32px; }
+  .ca-timeline::before {
+    content: '';
+    position: absolute; left: 11px; top: 0; bottom: 0;
+    width: 2px; background: var(--border);
+  }
+  .ca-entry {
+    position: relative; margin-bottom: 24px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-md); padding: 20px 22px;
+    box-shadow: var(--shadow-sm); transition: var(--transition);
+  }
+  .ca-entry:hover { box-shadow: var(--shadow-md); border-color: var(--accent); }
+  .ca-dot {
+    position: absolute; left: -26px; top: 22px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg-primary);
+    box-shadow: 0 0 0 3px rgba(232,130,26,0.2);
+  }
+  .ca-date { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 6px; }
+  .ca-title { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; font-family: var(--font-display); }
+  .ca-body { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+  .ca-tags { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+  .ca-tag { padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; background: var(--bg-primary); color: var(--text-muted); border: 1px solid var(--border); }
+  .ca-expand-btn { margin-top: 10px; font-size: 12px; font-weight: 600; color: var(--accent); cursor: pointer; background: none; border: none; padding: 0; display: flex; align-items: center; gap: 4px; }
+  .ca-expanded { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+  .ca-expanded.open { display: block; }
+
+  /* =============================================
+     PYQ
+  ============================================= */
+  .pyq-tabs-outer { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 2px solid var(--border); }
+  .pyq-tab-btn {
+    padding: 12px 24px; font-size: 14px; font-weight: 600;
+    color: var(--text-muted); cursor: pointer;
+    border: none; background: none; border-bottom: 2px solid transparent;
+    margin-bottom: -2px; transition: var(--transition);
+  }
+  .pyq-tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .pyq-tab-panel { display: none; }
+  .pyq-tab-panel.active { display: block; animation: fadeInUp 0.3s ease; }
+
+  .year-accordion { margin-bottom: 14px; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+  .year-accordion-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; background: var(--bg-card); cursor: pointer;
+    transition: var(--transition);
+  }
+  .year-accordion-header:hover { background: var(--bg-primary); }
+  .yah-left { display: flex; align-items: center; gap: 12px; }
+  .year-badge { background: var(--accent); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 700; }
+  .yah-info strong { font-size: 14px; color: var(--text-primary); }
+  .yah-info span { font-size: 12px; color: var(--text-muted); display: block; }
+  .yah-arrow { font-size: 16px; color: var(--text-muted); transition: transform 0.25s; }
+  .year-accordion.open .yah-arrow { transform: rotate(180deg); }
+  .year-accordion-body { display: none; background: var(--bg-primary); padding: 20px; border-top: 1px solid var(--border); }
+  .year-accordion.open .year-accordion-body { display: block; animation: fadeInUp 0.25s ease; }
+  .pyq-question-list { display: flex; flex-direction: column; gap: 14px; }
+  .pyq-question {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 14px 18px;
+  }
+  .pyq-q-number { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .pyq-q-text { font-size: 13px; color: var(--text-primary); line-height: 1.6; margin-bottom: 10px; }
+  .pyq-q-options { display: flex; flex-direction: column; gap: 5px; }
+  .pyq-q-option { font-size: 12px; color: var(--text-secondary); padding: 4px 0; display: flex; align-items: flex-start; gap: 6px; }
+  .pyq-q-option.correct { color: #059669; font-weight: 600; }
+  .pyq-q-option .opt-key { font-weight: 700; min-width: 20px; }
+
+  .pyq-download-row { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+  .download-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md);
+    padding: 16px 20px; display: flex; align-items: center; gap: 14px;
+    cursor: pointer; transition: var(--transition); flex: 1; min-width: 200px;
+  }
+  .download-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); }
+  .dl-icon { font-size: 28px; }
+  .dl-info strong { font-size: 13px; color: var(--text-primary); display: block; }
+  .dl-info span { font-size: 11px; color: var(--text-muted); }
+  .dl-btn { margin-left: auto; background: var(--accent-light); color: var(--accent); border: none; padding: 6px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; }
+
+  /* =============================================
+     MOCK TEST
+  ============================================= */
+  .test-landing { text-align: center; padding: 60px 20px; }
+  .test-landing-icon { font-size: 64px; margin-bottom: 20px; }
+  .test-landing h2 { font-family: var(--font-display); font-size: 28px; color: var(--text-primary); margin-bottom: 10px; }
+  .test-landing p { font-size: 14px; color: var(--text-muted); max-width: 480px; margin: 0 auto 28px; line-height: 1.7; }
+  .test-meta-row { display: flex; justify-content: center; gap: 24px; margin-bottom: 32px; flex-wrap: wrap; }
+  .test-meta-item { text-align: center; background: var(--bg-card); border: 1px solid var(--border); padding: 14px 20px; border-radius: var(--radius-md); min-width: 100px; }
+  .test-meta-item strong { display: block; font-size: 20px; font-weight: 800; color: var(--text-primary); font-family: var(--font-display); }
+  .test-meta-item span { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* quiz in progress */
+  .quiz-container { display: none; max-width: 760px; margin: 0 auto; }
+  .quiz-container.active { display: block; animation: fadeInUp 0.3s ease; }
+  .quiz-header {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-md); padding: 16px 22px; margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .quiz-timer {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 22px; font-weight: 800; font-family: var(--font-display);
+    color: var(--accent);
+  }
+  .quiz-timer.warning { color: #ef4444; }
+  .quiz-progress-info { font-size: 13px; color: var(--text-muted); }
+  .quiz-progress-info strong { color: var(--text-primary); }
+  .quiz-progress-bar-outer { flex: 1; height: 8px; background: var(--bg-primary); border-radius: 4px; overflow: hidden; margin: 0 20px; }
+  .quiz-progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #f0b74a); border-radius: 4px; transition: width 0.3s; }
+
+  .question-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 28px; margin-bottom: 16px; box-shadow: var(--shadow-sm); }
+  .q-number-tag { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .q-text { font-size: 15px; color: var(--text-primary); line-height: 1.7; margin-bottom: 20px; font-weight: 500; }
+  .q-options { display: flex; flex-direction: column; gap: 10px; }
+  .q-option {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 16px; border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border); cursor: pointer;
+    transition: var(--transition); background: var(--bg-primary);
+    font-size: 14px; color: var(--text-secondary);
+  }
+  .q-option:hover { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+  .q-option.selected { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+  .q-option.correct { border-color: #059669; background: #d1fae5; color: #065f46; }
+  .q-option.wrong { border-color: #ef4444; background: #fee2e2; color: #991b1b; }
+  [data-theme="dark"] .q-option.correct { background: #064e3b; }
+  [data-theme="dark"] .q-option.wrong { background: #450a0a; }
+  .opt-bubble {
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 1.5px solid currentColor; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+  }
+
+  .quiz-nav { display: flex; gap: 12px; justify-content: space-between; align-items: center; margin-top: 16px; }
+
+  /* result card */
+  .result-card { display: none; max-width: 560px; margin: 0 auto; }
+  .result-card.active { display: block; animation: fadeInUp 0.4s ease; }
+  .result-header { background: linear-gradient(135deg, #0d1b2a, #1a2f45); border-radius: var(--radius-lg); padding: 36px 28px; text-align: center; margin-bottom: 20px; position: relative; overflow: hidden; }
+  .result-header::before { content: '🏆'; position: absolute; top: -10px; right: 16px; font-size: 80px; opacity: 0.08; }
+  .result-score-circle {
+    width: 120px; height: 120px; border-radius: 50%;
+    border: 4px solid var(--accent); background: rgba(232,130,26,0.1);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+  }
+  .result-score-num { font-size: 32px; font-weight: 800; color: var(--accent); font-family: var(--font-display); line-height: 1; }
+  .result-score-label { font-size: 11px; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+  .result-title { font-family: var(--font-display); font-size: 22px; color: #fff; margin-bottom: 6px; }
+  .result-sub { font-size: 13px; color: rgba(255,255,255,0.5); }
+  .result-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .result-stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; text-align: center; }
+  .result-stat strong { display: block; font-size: 22px; font-weight: 800; font-family: var(--font-display); }
+  .result-stat span { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; display: block; }
+  .rs-total strong { color: var(--accent); }
+  .rs-correct strong { color: #059669; }
+  .rs-wrong strong { color: #ef4444; }
+  .rs-skip strong { color: var(--text-muted); }
+
+  /* =============================================
+     STUDY PLANNER
+  ============================================= */
+  .planner-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+  .planner-date-nav { display: flex; align-items: center; gap: 12px; }
+  .date-nav-btn { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--border); background: var(--bg-card); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; color: var(--text-secondary); transition: var(--transition); }
+  .date-nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .current-date-label { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+
+  .planner-grid { display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
+
+  .planner-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow-sm); }
+  .planner-card-title { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+  .progress-summary { margin-bottom: 20px; }
+  .ps-numbers { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .ps-numbers span { font-size: 13px; color: var(--text-muted); }
+  .ps-numbers strong { font-size: 16px; font-weight: 800; color: var(--text-primary); font-family: var(--font-display); }
+  .main-progress-bar { height: 10px; background: var(--bg-primary); border-radius: 5px; overflow: hidden; }
+  .main-progress-fill { height: 100%; border-radius: 5px; background: linear-gradient(90deg, var(--accent), #f0b74a); transition: width 0.5s ease; }
+
+  .task-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .task-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px; border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border); background: var(--bg-primary);
+    cursor: pointer; transition: var(--transition);
+  }
+  .task-item:hover { border-color: var(--accent); }
+  .task-item.completed { opacity: 0.7; }
+  .task-checkbox {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid var(--border); display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: var(--transition); background: var(--bg-card);
+  }
+  .task-item.completed .task-checkbox { background: #10b981; border-color: #10b981; color: #fff; }
+  .task-label { font-size: 13px; color: var(--text-secondary); flex: 1; }
+  .task-item.completed .task-label { text-decoration: line-through; color: var(--text-muted); }
+  .task-duration { font-size: 11px; color: var(--text-muted); background: var(--bg-card); border: 1px solid var(--border); padding: 2px 8px; border-radius: 10px; flex-shrink: 0; }
+  .task-priority { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .tp-high { background: #ef4444; }
+  .tp-med { background: #f59e0b; }
+  .tp-low { background: #10b981; }
+
+  .add-task-form { display: flex; gap: 8px; margin-bottom: 8px; }
+  .add-task-input { flex: 1; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-primary); color: var(--text-primary); font-size: 13px; outline: none; transition: var(--transition); }
+  .add-task-input:focus { border-color: var(--accent); }
+
+  .weekly-overview { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 16px; }
+  .day-pill { text-align: center; padding: 8px 4px; border-radius: var(--radius-sm); border: 1px solid var(--border); cursor: pointer; transition: var(--transition); }
+  .day-pill:hover { border-color: var(--accent); }
+  .day-pill.today { background: var(--accent); border-color: var(--accent); }
+  .day-pill .dp-day { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+  .day-pill.today .dp-day { color: rgba(255,255,255,0.7); }
+  .day-pill .dp-num { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+  .day-pill.today .dp-num { color: #fff; }
+  .day-pill .dp-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin: 4px auto 0; }
+  .day-pill.today .dp-dot { background: rgba(255,255,255,0.5); }
+  .day-pill.empty .dp-dot { background: transparent; }
+  .day-pill.has-tasks .dp-dot { background: var(--accent); }
+
+  .study-hours-chart { margin-top: 12px; }
+  .hours-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .hbr-label { font-size: 11px; color: var(--text-muted); width: 28px; text-align: right; flex-shrink: 0; }
+  .hbr-bar-outer { flex: 1; height: 14px; background: var(--bg-primary); border-radius: 7px; overflow: hidden; }
+  .hbr-bar-fill { height: 100%; border-radius: 7px; background: linear-gradient(90deg, var(--accent), #f0b74a); transition: width 0.6s ease; }
+  .hbr-val { font-size: 11px; color: var(--text-muted); width: 30px; }
+
+  /* =============================================
+     RESOURCES
+  ============================================= */
+  .resources-filter { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+  .res-filter-btn { padding: 7px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1.5px solid var(--border); background: var(--bg-card); color: var(--text-secondary); transition: var(--transition); }
+  .res-filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  .books-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+  .book-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s; }
+  .book-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .book-cover { height: 160px; display: flex; align-items: center; justify-content: center; font-size: 48px; position: relative; }
+  .book-cover::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.15)); }
+  .book-body { padding: 16px; }
+  .book-title { font-size: 13px; font-weight: 700; color: var(--text-primary); line-height: 1.4; margin-bottom: 6px; }
+  .book-author { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+  .book-meta { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .book-actions { display: flex; gap: 8px; }
+  .book-btn { flex: 1; text-align: center; padding: 8px 12px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; transition: var(--transition); border: 1.5px solid var(--border); background: var(--bg-primary); color: var(--text-secondary); }
+  .book-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .book-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .book-btn.primary:hover { background: var(--accent-dark); }
+  .book-rating { display: flex; align-items: center; gap: 4px; font-size: 12px; color: #f59e0b; font-weight: 600; }
+
+  /* =============================================
+     TOAST
+  ============================================= */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--bg-sidebar);
+    color: #fff; padding: 12px 20px;
+    border-radius: var(--radius-sm); border-left: 4px solid var(--accent);
+    font-size: 13px; font-weight: 500; box-shadow: var(--shadow-lg);
+    z-index: 9999; transform: translateX(120%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    max-width: 300px;
+  }
+  .toast.show { transform: translateX(0); }
+
+  /* =============================================
+     RESPONSIVE
+  ============================================= */
+  @media (max-width: 900px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
+    .hero-countdown { display: none; }
+    .planner-grid { grid-template-columns: 1fr; }
+    .result-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    :root { --sidebar-width: 260px; }
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .header { left: 0; padding: 0 16px; }
+    .hamburger { display: flex; }
+    .main-content { margin-left: 0; }
+    .page-pad { padding: 20px 16px; }
+    .hero-banner { padding: 32px 24px; }
+    .hero-title { font-size: 26px; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .subjects-grid { grid-template-columns: 1fr; }
+    .books-grid { grid-template-columns: repeat(2, 1fr); }
+    .weekly-overview { grid-template-columns: repeat(7, 1fr); }
+    .theme-toggle span { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .stats-row { grid-template-columns: 1fr; }
+    .books-grid { grid-template-columns: 1fr; }
+    .hero-actions { flex-direction: column; }
+    .pyq-download-row { flex-direction: column; }
+    .result-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<!-- ============================================================
+     SIDEBAR
+============================================================ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">⚖️</div>
+    <div class="logo-text">
+      <strong>CivilEdge</strong>
+      <span>UPSC Prep Platform</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <div class="nav-item active" data-section="home" onclick="navigateTo('home')">
+      <span class="nav-icon">🏠</span> Dashboard
+    </div>
+    <div class="nav-item" data-section="subjects" onclick="navigateTo('subjects')">
+      <span class="nav-icon">📚</span> Subject Notes
+    </div>
+    <div class="nav-item" data-section="current-affairs" onclick="navigateTo('current-affairs')">
+      <span class="nav-icon">📰</span> Current Affairs
+      <span class="nav-badge">New</span>
+    </div>
+    <div class="nav-item" data-section="pyq" onclick="navigateTo('pyq')">
+      <span class="nav-icon">📜</span> Previous Year Q's
+    </div>
+
+    <div class="nav-section-label">Practice</div>
+    <div class="nav-item" data-section="mock-test" onclick="navigateTo('mock-test')">
+      <span class="nav-icon">✍️</span> Mock Tests
+    </div>
+    <div class="nav-item" data-section="planner" onclick="navigateTo('planner')">
+      <span class="nav-icon">📅</span> Study Planner
+    </div>
+
+    <div class="nav-section-label">Library</div>
+    <div class="nav-item" data-section="resources" onclick="navigateTo('resources')">
+      <span class="nav-icon">📖</span> Books & Resources
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-footer-info">
+      <div class="avatar">A</div>
+      <div class="user-info">
+        <strong>Aspirant 2025</strong>
+        <span>IAS — General Studies</span>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ============================================================
+     HEADER
+============================================================ -->
+<header class="header" id="header">
+  <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="globalSearch" placeholder="Search topics, notes, questions…" autocomplete="off">
+    <div class="search-results" id="searchResults"></div>
+  </div>
+
+  <div class="header-actions">
+    <button class="icon-btn" title="Notifications" onclick="showToast('You have 3 new notifications!')">🔔</button>
+    <button class="icon-btn" title="Bookmarks" onclick="navigateTo('resources')">🔖</button>
+    <button class="theme-toggle" id="themeToggle">
+      <span id="themeIcon">🌙</span>
+      <span id="themeLabel">Dark</span>
+    </button>
+  </div>
+</header>
+
+<!-- ============================================================
+     MAIN CONTENT
+============================================================ -->
+<main class="main-content">
+
+  <!-- ======================================================
+       HOME / DASHBOARD
+  ====================================================== -->
+  <section class="section active" id="section-home">
+    <div class="page-pad">
+      <!-- Hero -->
+      <div class="hero-banner">
+        <div class="hero-pattern"></div>
+                <div class="hero-content">
+          <div class="hero-label">🎯 UPSC CSE 2026 Preparation</div>
+          <h1 class="hero-title">Your IAS Dream<br>Starts <span>Right Here.</span></h1>
+          <p class="hero-desc">Structured study material, daily current affairs, mock tests with negative marking, and a personalised study planner — everything you need to crack the Civil Services Examination this year.</p>
+          <div class="hero-actions">
+            <button class="hero-cta hero-cta-primary" onclick="navigateTo('mock-test')">Start Mock Test →</button>
+            <button class="hero-cta hero-cta-secondary" onclick="navigateTo('subjects')">Browse Notes</button>
+          </div>
+        </div>
+        <div class="hero-countdown" id="heroCountdown">
+          <div class="countdown-ring">
+            <div class="countdown-number" id="daysLeft">-</div>
+            <div class="countdown-label">Days Left</div>
+            <div class="countdown-sub">to Prelims 2026</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon orange">📅</div>
+          <div class="stat-info">
+            <strong id="statDays">-</strong>
+            <span>Days to Prelims</span>
+            <small>↑ Stay on track!</small>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">✍️</div>
+          <div class="stat-info">
+            <strong>12</strong>
+            <span>Tests Attempted</span>
+            <small>↑ +3 this week</small>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">📚</div>
+          <div class="stat-info">
+            <strong>68%</strong>
+            <span>Syllabus Covered</span>
+            <small>↑ 4% this week</small>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple">⏱️</div>
+          <div class="stat-info">
+            <strong>214h</strong>
+            <span>Total Study Hours</span>
+            <small>↑ 18h this month</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Grid -->
+      <div class="dashboard-grid">
+        <!-- Quote -->
+        <div class="quote-card">
+          <div class="quote-text">"The price of success is hard work, dedication to the job at hand, and the determination that whether we win or lose, we have applied the best of ourselves to the task at hand."</div>
+          <div class="quote-author">— Vince Lombardi</div>
+          <div class="quote-date">Quote of the Day · <span id="todayDate"></span></div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="recent-activity">
+          <div class="widget-title">📋 Recent Activity</div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div>
+                <div class="activity-text">Completed <strong>Polity Mock Test #4</strong> — scored 68/100</div>
+                <div class="activity-time">2 hours ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot blue"></div>
+              <div>
+                <div class="activity-text">Read <strong>Modern History — Revolt of 1857</strong></div>
+                <div class="activity-time">Yesterday, 9:30 PM</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot green"></div>
+              <div>
+                <div class="activity-text">Completed <strong>5/7 daily tasks</strong> in Study Planner</div>
+                <div class="activity-time">Yesterday, 6:00 PM</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot"></div>
+              <div>
+                <div class="activity-text">Bookmarked <strong>RBI Monetary Policy Q3 2024</strong> current affair</div>
+                <div class="activity-time">2 days ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's Target Quick View -->
+      <div class="todays-target-card card" style="padding:24px; margin-bottom:28px;">
+        <div class="widget-title">🎯 Today's Quick Targets <span style="margin-left:auto;font-size:12px;color:var(--text-muted);font-weight:400;" id="quickTargetMeta">0 / 4 done</span></div>
+        <div class="target-progress-bar"><div class="target-progress-fill" id="quickProgressFill" style="width:0%"></div></div>
+        <div id="quickTargetList">
+          <div class="target-item" id="qt-0"><input type="checkbox" onchange="updateQuickTarget(0)"><span>Revise Chapter 5 — Indian Constitution (Fundamental Rights)</span></div>
+          <div class="target-item" id="qt-1"><input type="checkbox" onchange="updateQuickTarget(1)"><span>Read today's Current Affairs (The Hindu + PIB)</span></div>
+          <div class="target-item" id="qt-2"><input type="checkbox" onchange="updateQuickTarget(2)"><span>Practice 20 Polity MCQs</span></div>
+          <div class="target-item" id="qt-3"><input type="checkbox" onchange="updateQuickTarget(3)"><span>Revise Geography maps — River systems of India</span></div>
+        </div>
+        <div style="margin-top:14px;">
+          <button class="btn btn-outline" style="font-size:12px;" onclick="navigateTo('planner')">Open Full Planner →</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================
+       SUBJECTS / NOTES
+  ====================================================== -->
+  <section class="section" id="section-subjects">
+    <div class="page-pad">
+      <div id="subjectsListView">
+        <div class="section-title">📚 Subject Notes</div>
+        <div class="section-subtitle">Browse comprehensive UPSC GS & Optional study material</div>
+
+        <div class="subjects-grid" id="subjectsGrid">
+          <!-- Cards injected by JS -->
+        </div>
+      </div>
+
+      <div class="subject-detail" id="subjectDetailView">
+        <div class="back-btn" onclick="closeSubjectDetail()">← Back to Subjects</div>
+        <div class="subject-detail-header" id="subjectDetailHeader">
+          <div class="sdh-label" id="sdh-label"></div>
+          <div class="sdh-title" id="sdh-title"></div>
+          <div class="sdh-desc" id="sdh-desc"></div>
+        </div>
+        <div class="notes-tabs" id="notesTabs"></div>
+        <div id="notesTabContents"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================
+       CURRENT AFFAIRS
+  ====================================================== -->
+  <section class="section" id="section-current-affairs">
+    <div class="page-pad">
+      <div class="section-title">📰 Current Affairs</div>
+      <div class="section-subtitle">Daily updates curated for UPSC aspirants — Prelims & Mains relevant</div>
+
+      <div class="ca-filter-row">
+        <button class="ca-filter-btn active" data-filter="all" onclick="filterCA('all', this)">All Topics</button>
+        <button class="ca-filter-btn" data-filter="international" onclick="filterCA('international', this)">International</button>
+        <button class="ca-filter-btn" data-filter="economy" onclick="filterCA('economy', this)">Economy</button>
+        <button class="ca-filter-btn" data-filter="polity" onclick="filterCA('polity', this)">Polity & Governance</button>
+        <button class="ca-filter-btn" data-filter="science" onclick="filterCA('science', this)">Science & Tech</button>
+        <button class="ca-filter-btn" data-filter="environment" onclick="filterCA('environment', this)">Environment</button>
+      </div>
+
+      <div class="ca-timeline" id="caTimeline">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================
+       PYQ
+  ====================================================== -->
+  <section class="section" id="section-pyq">
+    <div class="page-pad">
+      <div class="section-title">📜 Previous Year Questions</div>
+      <div class="section-subtitle">Year-wise UPSC Prelims & Mains question papers with answers</div>
+
+      <div class="pyq-tabs-outer">
+        <button class="pyq-tab-btn active" onclick="switchPYQTab('prelims', this)">UPSC Prelims (GS-I)</button>
+        <button class="pyq-tab-btn" onclick="switchPYQTab('mains', this)">UPSC Mains (GS I–IV)</button>
+        <button class="pyq-tab-btn" onclick="switchPYQTab('csat', this)">CSAT (Paper II)</button>
+      </div>
+
+      <div class="pyq-tab-panel active" id="pyq-prelims">
+        <div class="pyq-download-row" id="prelimsDownloads"></div>
+        <div id="prelimsAccordions"></div>
+      </div>
+
+      <div class="pyq-tab-panel" id="pyq-mains">
+        <div class="pyq-download-row" id="mainsDownloads"></div>
+        <div id="mainsAccordions"></div>
+      </div>
+
+      <div class="pyq-tab-panel" id="pyq-csat">
+        <div class="pyq-download-row" id="csatDownloads"></div>
+        <div id="csatAccordions"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================
+       MOCK TEST
+  ====================================================== -->
+  <section class="section" id="section-mock-test">
+    <div class="page-pad">
+      <div class="section-title">✍️ Mock Test — UPSC Prelims</div>
+      <div class="section-subtitle">GS Paper I · Negative Marking (+2 / −0.66) · 60 Minutes</div>
+
+      <!-- Landing -->
+      <div class="test-landing" id="testLanding">
+        <div class="test-landing-icon">📝</div>
+        <h2>Civil Services Preliminary Examination</h2>
+        <p>This mock test simulates real UPSC Prelims conditions. You have 60 minutes to answer 5 General Studies questions. Marking scheme: +2 for correct, −0.66 for incorrect.</p>
+        <div class="test-meta-row">
+          <div class="test-meta-item"><strong>5</strong><span>Questions</span></div>
+          <div class="test-meta-item"><strong>60</strong><span>Minutes</span></div>
+          <div class="test-meta-item"><strong>+2</strong><span>For Correct</span></div>
+          <div class="test-meta-item"><strong>−0.66</strong><span>For Wrong</span></div>
+        </div>
+        <button class="btn btn-primary" style="font-size:15px; padding:14px 36px;" onclick="startQuiz()">Start Test Now →</button>
+      </div>
+
+      <!-- Quiz in progress -->
+      <div class="quiz-container" id="quizContainer">
+        <div class="quiz-header">
+          <div class="quiz-timer" id="quizTimer">⏱ 60:00</div>
+          <div class="quiz-progress-bar-outer">
+            <div class="quiz-progress-bar-fill" id="quizProgressBar" style="width:0%"></div>
+          </div>
+          <div class="quiz-progress-info">Q <strong id="qCurrent">1</strong> / <strong>5</strong></div>
+        </div>
+        <div id="questionArea"></div>
+        <div class="quiz-nav">
+          <button class="btn btn-outline" id="prevBtn" onclick="prevQuestion()" style="display:none;">← Previous</button>
+          <div style="display:flex;gap:8px;" id="qDots"></div>
+          <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Next →</button>
+          <button class="btn" id="submitBtn" style="display:none; background:#059669;color:#fff;" onclick="submitQuiz()">Submit Test ✓</button>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="result-card" id="resultCard">
+        <div class="result-header">
+          <div class="result-score-circle">
+            <div class="result-score-num" id="resultScore">-</div>
+            <div class="result-score-label">Score</div>
+          </div>
+          <div class="result-title" id="resultTitle">Test Completed!</div>
+          <div class="result-sub" id="resultSub"></div>
+        </div>
+        <div class="result-stats-grid">
+          <div class="result-stat rs-total"><strong id="rs-total">-</strong><span>Total Marks</span></div>
+          <div class="result-stat rs-correct"><strong id="rs-correct">-</strong><span>Correct</span></div>
+          <div class="result-stat rs-wrong"><strong id="rs-wrong">-</strong><span>Incorrect</span></div>
+          <div class="result-stat rs-skip"><strong id="rs-skip">-</strong><span>Skipped</span></div>
+        </div>
+        <div id="resultReviewArea" style="margin-bottom:20px;"></div>
+        <div style="display:flex;gap:12px;justify-content:center;">
+          <button class="btn btn-primary" onclick="resetQuiz()">Retake Test</button>
+          <button class="btn btn-outline" onclick="navigateTo('home')">Back to Dashboard</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================
+       STUDY PLANNER
+  ====================================================== -->
+  <section class="section" id="section-planner">
+    <div class="page-pad">
+      <div class="section-title">📅 Study Planner</div>
+      <div class="section-subtitle">Plan, track, and conquer your daily UPSC study targets</div>
+
+      <div class="planner-header-row">
+        <div class="planner-date-nav">
+          <button class="date-nav-btn" onclick="changeDay(-1)">‹</button>
+          <div class="current-date-label" id="plannerDateLabel"></div>
+          <button class="date-nav-btn" onclick="changeDay(1)">›</button>
+        </div>
+        <button class="btn btn-primary" onclick="showAddTaskPrompt()" style="font-size:13px;">+ Add Task</button>
+      </div>
+
+      <div class="planner-grid">
+        <div class="planner-card">
+          <div class="planner-card-title">
+            Today's Tasks
+            <span id="taskCountLabel" style="font-size:12px;color:var(--text-muted);font-weight:400;">0/0 complete</span>
+          </div>
+          <div class="progress-summary">
+            <div class="ps-numbers"><span>Progress</span><strong id="plannerPct">0%</strong></div>
+            <div class="main-progress-bar"><div class="main-progress-fill" id="mainProgressFill" style="width:0%"></div></div>
+          </div>
+          <div class="task-list" id="mainTaskList"></div>
+          <div class="add-task-form">
+            <input type="text" class="add-task-input" id="newTaskInput" placeholder="Add a new study task…" onkeydown="if(event.key==='Enter')addTask()">
+            <button class="btn btn-primary" onclick="addTask()" style="font-size:12px;padding:9px 16px;">Add</button>
+          </div>
+        </div>
+
+        <div>
+          <!-- Weekly overview -->
+          <div class="planner-card" style="margin-bottom:16px;">
+            <div class="planner-card-title">Weekly Overview</div>
+            <div class="weekly-overview" id="weeklyOverview"></div>
+          </div>
+
+          <!-- Study hours chart -->
+          <div class="planner-card">
+            <div class="planner-card-title">📊 Study Hours This Week</div>
+            <div class="study-hours-chart" id="studyHoursChart"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================
+       RESOURCES
+  ====================================================== -->
+  <section class="section" id="section-resources">
+    <div class="page-pad">
+      <div class="section-title">📖 Books & Resources</div>
+      <div class="section-subtitle">Curated reading list for UPSC CSE — Standard & highly recommended books</div>
+
+      <div class="resources-filter">
+        <button class="res-filter-btn active" data-resfilter="all" onclick="filterBooks('all', this)">All Books</button>
+        <button class="res-filter-btn" data-resfilter="polity" onclick="filterBooks('polity', this)">Polity</button>
+        <button class="res-filter-btn" data-resfilter="history" onclick="filterBooks('history', this)">History</button>
+        <button class="res-filter-btn" data-resfilter="geography" onclick="filterBooks('geography', this)">Geography</button>
+        <button class="res-filter-btn" data-resfilter="economy" onclick="filterBooks('economy', this)">Economy</button>
+        <button class="res-filter-btn" data-resfilter="science" onclick="filterBooks('science', this)">Science & Tech</button>
+        <button class="res-filter-btn" data-resfilter="environment" onclick="filterBooks('environment', this)">Environment</button>
+      </div>
+
+      <div class="books-grid" id="booksGrid"></div>
+    </div>
+  </section>
+
+</main>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+// ============================================================
+// DATA
+// ============================================================
+
+const SUBJECTS_DATA = [
+  {
+    id: 'history',
+    cls: 's-history',
+    icon: '🏛️',
+    title: 'History',
+    topics: '73 topics · Ancient, Medieval, Modern',
+    chapters: 24, questions: 480, progress: 72,
+    color: '#7c3aed',
+    desc: 'Comprehensive coverage of Indian History from Ancient civilisations through Vedic Age, Medieval Sultanate & Mughal periods, to Modern India including the Independence Movement.',
+    tabs: [
+      {
+        label: 'Ancient India', content: `
+<h3>Indus Valley Civilisation (c. 3300–1300 BCE)</h3>
+<p>The Indus Valley Civilisation (IVC), also known as the Harappan Civilisation, was one of the world's earliest urban cultures. Its mature phase flourished from approximately 2600–1900 BCE across the northwestern regions of South Asia — present-day Pakistan and northwestern India.</p>
+<div class="highlight-box">🔑 <strong>Key Fact for Prelims:</strong> The Great Bath at Mohenjo-daro is considered a masterpiece of ancient construction and was used for ritual bathing. The cities had advanced drainage systems far superior to many contemporary civilisations.</div>
+<h3>Major Sites</h3>
+<ul>
+<li><strong>Mohenjo-daro</strong> (Sindh, Pakistan) — "Mound of the Dead"; home of the Great Bath and large assembly halls.</li>
+<li><strong>Harappa</strong> (Punjab, Pakistan) — First excavated site; gave the civilisation its name.</li>
+<li><strong>Dholavira</strong> (Gujarat, India) — Unique water conservation systems; recently added to UNESCO World Heritage List (2021).</li>
+<li><strong>Lothal</strong> (Gujarat, India) — World's first known tidal dock; major maritime trade hub.</li>
+<li><strong>Kalibangan</strong> (Rajasthan, India) — Evidence of the world's earliest ploughed field.</li>
+<li><strong>Rakhigarhi</strong> (Haryana, India) — Largest Harappan site in India; significant DNA research conducted here.</li>
+</ul>
+<h3>Vedic Age (c. 1500–600 BCE)</h3>
+<p>The Vedic period is characterised by the composition of the Vedas — the oldest scriptures of Hinduism. The Early Vedic period (Rig Vedic, 1500–1000 BCE) saw a pastoral and semi-nomadic society, while the Later Vedic period (1000–600 BCE) transitioned to settled agriculture and more complex social structures.</p>
+<ul>
+<li><strong>Rig Veda</strong>: Oldest of the four Vedas; collection of 1,028 hymns to deities like Indra and Agni.</li>
+<li><strong>Sama Veda</strong>: Melodies and chants; source of Indian classical music tradition.</li>
+<li><strong>Yajur Veda</strong>: Ritualistic formulas and procedures for performing yajnas (fire sacrifices).</li>
+<li><strong>Atharva Veda</strong>: Spells, incantations, and philosophical speculations.</li>
+</ul>
+`
+      },
+      {
+        label: 'Medieval India', content: `
+<h3>Delhi Sultanate (1206–1526 CE)</h3>
+<p>The Delhi Sultanate was an Islamic empire based in Delhi that stretched over large parts of the Indian subcontinent for 320 years. Five dynasties ruled over the Delhi Sultanate sequentially: the Mamluk (Slave) dynasty, Khalji dynasty, Tughlaq dynasty, Sayyid dynasty, and Lodi dynasty.</p>
+<div class="highlight-box">🔑 <strong>Mains Relevance:</strong> The Delhi Sultanate introduced significant administrative innovations including the iqta system (land revenue assignment), which had long-lasting impacts on Indian governance structures.</div>
+<h3>Key Rulers & Contributions</h3>
+<ul>
+<li><strong>Qutb-ud-din Aibak (1206–1210)</strong>: Founded the Slave Dynasty; began construction of Qutb Minar, Delhi.</li>
+<li><strong>Iltutmish (1211–1236)</strong>: Consolidated the Sultanate; introduced silver coin called "tanka" and copper coin "jital"; received investiture from the Caliph of Baghdad.</li>
+<li><strong>Razia Sultana (1236–1240)</strong>: First and only female ruler of the Delhi Sultanate; highly progressive ruler who discarded purdah and rode elephants in public.</li>
+<li><strong>Alauddin Khalji (1296–1316)</strong>: Famous for market reforms; repelled multiple Mongol invasions; implemented revenue reforms — land measured and taxed in kind.</li>
+<li><strong>Muhammad bin Tughlaq (1325–1351)</strong>: Known for controversial policies — transfer of capital to Daulatabad, introduction of token currency (bronze coins), and taxation of Doab region during famine.</li>
+<li><strong>Firuz Shah Tughlaq (1351–1388)</strong>: Known for welfare measures; built numerous canals (irrigation); established hospitals (Darul-Shifa); abolished torture as state punishment.</li>
+</ul>
+<h3>Mughal Empire (1526–1857 CE)</h3>
+<p>Founded by Babur after his victory at the First Battle of Panipat (1526) against Ibrahim Lodi, the Mughal Empire became one of the largest empires in Indian history. At its peak under Aurangzeb, it controlled most of the Indian subcontinent.</p>
+<ul>
+<li><strong>Babur (1526–1530)</strong>: Founder; introduced gunpowder and field artillery to Indian warfare; authored the Baburnama (first autobiography in Islamic literature).</li>
+<li><strong>Humayun (1530–1540, 1555–1556)</strong>: Interrupted reign due to defeat by Sher Shah Suri; Sher Shah introduced the Grand Trunk Road and land revenue reforms (Zabti system).</li>
+<li><strong>Akbar (1556–1605)</strong>: Greatest Mughal; abolished Jizya tax; introduced Din-i-Ilahi (syncretic religion); Navratna (Nine Gems) court; Mansabdari system of administration.</li>
+<li><strong>Jahangir (1605–1627)</strong>: Patron of painting; wrote Tuzuk-i-Jahangiri; justice chain (Zanjir-i-Adl) at Agra fort.</li>
+<li><strong>Shah Jahan (1628–1658)</strong>: Builder of the Taj Mahal; Peacock Throne; Red Fort; Jama Masjid Delhi.</li>
+<li><strong>Aurangzeb (1658–1707)</strong>: Extended empire to its maximum; reimposed Jizya; banned music in court; Deccan campaigns led to overextension and eventual decline.</li>
+</ul>
+`
+      },
+      {
+        label: 'Modern India', content: `
+<h3>British Conquest of India</h3>
+<p>The British East India Company's rule in India began with the Battle of Plassey (1757), where Robert Clive defeated Siraj ud-Daulah, Nawab of Bengal, through a conspiracy involving Mir Jafar. This marked the beginning of British political supremacy in India.</p>
+<div class="highlight-box">🔑 <strong>Key Dates:</strong> Battle of Plassey — 1757 | Battle of Buxar — 1764 | Permanent Settlement (Bengal) — 1793 | Charter Act 1833 — Governor-General of India | Queen's Proclamation — 1858</div>
+<h3>Major Acts & Constitutional Developments</h3>
+<ul>
+<li><strong>Regulating Act, 1773</strong>: First step to centralise British administration; created post of Governor-General.</li>
+<li><strong>Pitt's India Act, 1784</strong>: Separated commercial and political functions; Board of Control established.</li>
+<li><strong>Charter Act, 1833</strong>: East India Company ceased to be a commercial body; Governor-General of India created; first attempt to codify Indian law (Macaulay's Law Commission).</li>
+<li><strong>Government of India Act, 1858</strong>: Crown took over from East India Company; Viceroy system established.</li>
+<li><strong>Indian Councils Act, 1909</strong>: Minto-Morley Reforms; introduced separate electorates for Muslims (communal representation).</li>
+<li><strong>Government of India Act, 1919</strong>: Montagu-Chelmsford Reforms; dyarchy introduced in provinces; bicameral legislature at centre.</li>
+<li><strong>Government of India Act, 1935</strong>: Longest constitutional act; provided for all-India federation; provincial autonomy; dyarchy at centre; basis of 1950 Constitution.</li>
+</ul>
+<h3>Freedom Movement — Key Events</h3>
+<ul>
+<li><strong>Revolt of 1857</strong>: First War of Independence; started at Meerut; significant leaders include Rani Lakshmibai of Jhansi, Nana Sahib, Tantia Tope, Bahadur Shah Zafar.</li>
+<li><strong>Partition of Bengal, 1905</strong>: Curzon's partition; led to Swadeshi Movement; Boycott of British goods; annulled in 1911.</li>
+<li><strong>Non-Cooperation Movement (1920–22)</strong>: Gandhi's first mass movement; called off after Chauri Chaura incident (1922) where mob burned police station.</li>
+<li><strong>Civil Disobedience Movement (1930–34)</strong>: Started with Dandi March (Salt Satyagraha) on 12 March 1930; 241-mile march from Sabarmati to Dandi.</li>
+<li><strong>Quit India Movement, 1942</strong>: "Do or Die" — Gandhi; mass arrest of leaders; underground movements by Aruna Asaf Ali, Jayaprakash Narayan.</li>
+<li><strong>Indian Independence Act, 1947</strong>: Passed on 18 July 1947; India became independent on 15 August 1947; partition into India and Pakistan.</li>
+</ul>
+`
+      }
+    ]
+  },
+  {
+    id: 'polity',
+    cls: 's-polity',
+    icon: '⚖️',
+    title: 'Indian Polity',
+    topics: '68 topics · Constitution, Parliament, Judiciary',
+    chapters: 20, questions: 540, progress: 85,
+    color: '#1a56db',
+    desc: 'Deep-dive into the Indian Constitution — its making, features, Fundamental Rights, Directive Principles, Parliament, State Legislature, Union-State Relations, and Emergency Provisions.',
+    tabs: [
+      {
+        label: 'Constitution', content: `
+<h3>Making of the Indian Constitution</h3>
+<p>The Indian Constitution was drafted by the Constituent Assembly, which was set up under the Cabinet Mission Plan of 1946. The Assembly consisted of 389 members (including members from Princely States). After independence and partition, the Constituent Assembly had 299 members. Dr. B.R. Ambedkar chaired the Drafting Committee and is known as the "Father of the Indian Constitution."</p>
+<div class="highlight-box">🔑 <strong>Key Facts:</strong> Constituent Assembly held 11 sessions over 2 years, 11 months, 18 days. Constitution adopted on 26 November 1949 (Constitution Day). Came into force on 26 January 1950 (Republic Day). Total time to draft: 2 years, 11 months, 18 days. Cost: ₹63,96,729.</div>
+<h3>Salient Features of the Indian Constitution</h3>
+<ul>
+<li><strong>Lengthiest Constitution</strong>: Originally had 395 Articles, 8 Schedules, 22 Parts. Currently has 448 Articles, 12 Schedules, 25 Parts (after amendments).</li>
+<li><strong>Federal with Unitary Bias</strong>: Single Citizenship, Single Constitution (unlike USA), All-India Services, Integrated Judiciary, Emergency Provisions give unitary character.</li>
+<li><strong>Parliamentary System</strong>: Real executive powers with Cabinet (Council of Ministers); President is nominal/constitutional head; Prime Minister is the real executive.</li>
+<li><strong>Fundamental Rights (Part III, Art. 12–35)</strong>: 6 Fundamental Rights — Right to Equality, Right to Freedom, Right against Exploitation, Right to Freedom of Religion, Cultural & Educational Rights, Right to Constitutional Remedies.</li>
+<li><strong>Directive Principles (Part IV, Art. 36–51)</strong>: Non-justiciable; state's duty to implement; classified into Socialistic, Gandhian, and Liberal-Intellectual principles.</li>
+<li><strong>Independent Judiciary</strong>: Supreme Court, High Courts; power of Judicial Review; Writs jurisdiction.</li>
+<li><strong>Secularism</strong>: No state religion; 42nd Amendment (1976) added "Secular" to the Preamble.</li>
+</ul>
+<h3>Schedules of the Constitution</h3>
+<ul>
+<li><strong>First Schedule</strong>: Names of States and Union Territories and their territories.</li>
+<li><strong>Second Schedule</strong>: Provisions relating to emoluments, allowances, privileges of constitutional functionaries.</li>
+<li><strong>Third Schedule</strong>: Forms of Oaths or Affirmations.</li>
+<li><strong>Fourth Schedule</strong>: Allocation of seats in Rajya Sabha to States and UTs.</li>
+<li><strong>Fifth Schedule</strong>: Administration of Scheduled Areas and Scheduled Tribes.</li>
+<li><strong>Sixth Schedule</strong>: Administration of Tribal Areas in Assam, Meghalaya, Tripura, and Mizoram.</li>
+<li><strong>Seventh Schedule</strong>: Distribution of legislative powers between Union and States (Union List, State List, Concurrent List).</li>
+<li><strong>Eighth Schedule</strong>: 22 Official Languages.</li>
+<li><strong>Ninth Schedule</strong>: Acts and Regulations protected from judicial review (added by 1st Amendment, 1951).</li>
+<li><strong>Tenth Schedule</strong>: Anti-defection Law (added by 52nd Amendment, 1985).</li>
+<li><strong>Eleventh Schedule</strong>: Powers of Panchayats (added by 73rd Amendment, 1992).</li>
+<li><strong>Twelfth Schedule</strong>: Powers of Municipalities (added by 74th Amendment, 1992).</li>
+</ul>
+`
+      },
+      {
+        label: 'Parliament', content: `
+<h3>Structure of Indian Parliament</h3>
+<p>The Parliament of India is the supreme legislative body of the Republic of India. The Parliament consists of the President of India and the two Houses — the Rajya Sabha (Council of States) and the Lok Sabha (House of the People).</p>
+<div class="highlight-box">🔑 <strong>Key Numbers:</strong> Lok Sabha: Max 552 seats (530 states + 20 UTs + 2 Anglo-Indian nominated — now abolished). Current strength: 543. Rajya Sabha: Max 250 members (238 elected + 12 nominated by President).</div>
+<h3>Lok Sabha vs Rajya Sabha</h3>
+<ul>
+<li><strong>Lok Sabha</strong>: Lower house; directly elected by people; term 5 years (unless dissolved); presided over by Speaker.</li>
+<li><strong>Rajya Sabha</strong>: Upper house; permanent body (cannot be dissolved); 1/3 members retire every 2 years; term of each member 6 years; VP is ex-officio Chairman.</li>
+<li><strong>Money Bills</strong>: Can only be introduced in Lok Sabha; Rajya Sabha has 14-day recommendatory role only.</li>
+<li><strong>Joint Sitting</strong>: Convened by President to resolve deadlock on ordinary bills (Article 108); Lok Sabha effectively dominates due to larger size.</li>
+</ul>
+<h3>Parliamentary Procedures</h3>
+<ul>
+<li><strong>Question Hour</strong>: First hour of each sitting; Starred (oral), Unstarred (written), Short Notice Questions.</li>
+<li><strong>Zero Hour</strong>: Immediately after Question Hour; matters of urgent public importance; not mentioned in Rules of Procedure.</li>
+<li><strong>Adjournment Motion</strong>: Discuss definite matter of urgent public importance; requires 50 members' support; only in Lok Sabha; amounts to censure of government.</li>
+<li><strong>No-Confidence Motion</strong>: Council of Ministers is collectively responsible to Lok Sabha; requires 50 members to admit; simple majority to pass.</li>
+<li><strong>Budget Session</strong>: General Budget presented on 1st February; Railway Budget merged with General Budget from 2017.</li>
+</ul>
+`
+      },
+      {
+        label: 'Judiciary', content: `
+<h3>Supreme Court of India</h3>
+<p>Established on 28 January 1950, the Supreme Court of India is the highest judicial forum and final court of appeal under the Constitution. The Chief Justice of India is the head of the Supreme Court.</p>
+<div class="highlight-box">🔑 <strong>Jurisdiction Types:</strong> Original Jurisdiction (Art. 131) — disputes between Union & States. Appellate Jurisdiction (Art. 132–136). Writ Jurisdiction (Art. 32) — Fundamental Rights enforcement. Advisory Jurisdiction (Art. 143) — President's reference.</div>
+<h3>Constitutional Writs</h3>
+<ul>
+<li><strong>Habeas Corpus</strong>: "Produce the body"; protects against illegal detention; person in custody brought before court.</li>
+<li><strong>Mandamus</strong>: "We command"; issued to public officials, bodies, courts to perform their legal duty.</li>
+<li><strong>Prohibition</strong>: Issued by superior court to inferior court to stop exceeding its jurisdiction.</li>
+<li><strong>Certiorari</strong>: Issued to quash an order of inferior court/tribunal acting without or in excess of jurisdiction.</li>
+<li><strong>Quo Warranto</strong>: "By what authority"; challenges a person's claim to hold a public office.</li>
+</ul>
+<h3>Judicial Review</h3>
+<p>The power of the Supreme Court and High Courts to examine constitutionality of legislative and executive actions. Landmark cases include: Kesavananda Bharati v. State of Kerala (1973) — Basic Structure Doctrine; Maneka Gandhi v. Union of India (1978) — expanded Art. 21; Vishaka v. State of Rajasthan (1997) — sexual harassment guidelines.</p>
+`
+      }
+    ]
+  },
+  {
+    id: 'geography',
+    cls: 's-geography',
+    icon: '🌍',
+    title: 'Geography',
+    topics: '58 topics · Physical, Human, Indian Geography',
+    chapters: 18, questions: 390, progress: 60,
+    color: '#059669',
+    desc: 'Physical Geography, Human Geography, and Indian Geography including climate, rivers, soils, natural vegetation, minerals, industries, and population.',
+    tabs: [
+      {
+        label: 'Physical Geography', content: `
+<h3>Interior of the Earth</h3>
+<p>The Earth's internal structure is divided into three main layers: the Crust, the Mantle, and the Core. The study of Earth's interior is based on indirect evidence — seismic waves from earthquakes being the primary source of information.</p>
+<div class="highlight-box">🔑 <strong>Seismic Shadow Zone:</strong> P-waves (Primary/Pressure) can travel through solids and liquids. S-waves (Secondary/Shear) can only travel through solids. The absence of S-waves beyond 103° from the epicentre confirms the outer core is liquid.</div>
+<h3>Types of Rocks</h3>
+<ul>
+<li><strong>Igneous Rocks</strong>: Formed by cooling and solidification of magma/lava. Intrusive (e.g., Granite) — cool slowly, coarse-grained. Extrusive (e.g., Basalt) — cool quickly, fine-grained. Deccan Traps in India are basaltic lava flows.</li>
+<li><strong>Sedimentary Rocks</strong>: Formed by deposition and compaction of sediments. Layered structure (stratification). Fossils found in these rocks. Sandstone, limestone, shale, coal are examples. Most of the Indo-Gangetic Plain is sedimentary.</li>
+<li><strong>Metamorphic Rocks</strong>: Pre-existing rocks transformed by heat and pressure. Marble (from limestone), Slate (from shale), Quartzite (from sandstone), Gneiss (from granite). Diamondiferous rocks in Panna (MP) are metamorphic.</li>
+</ul>
+<h3>Plate Tectonics</h3>
+<p>The theory of Plate Tectonics explains the movement of Earth's lithospheric plates. There are seven major plates and several minor plates. Plate boundaries are classified as: Divergent (constructive — plates move apart, e.g., Mid-Atlantic Ridge), Convergent (destructive — plates collide), and Transform (conservative — plates slide past each other).</p>
+<ul>
+<li><strong>Himalayan Formation</strong>: Collision of Indo-Australian Plate and Eurasian Plate. Tethys Sea sediments were uplifted to form Himalayas (Continent-Continent convergence).</li>
+<li><strong>Deccan Plateau</strong>: Formed due to volcanic activity related to the Reunion Hotspot approximately 65–66 million years ago (associated with K-Pg mass extinction event).</li>
+<li><strong>Andaman & Nicobar</strong>: Part of the volcanic arc of the Indo-Burmese subduction zone.</li>
+</ul>
+`
+      },
+      {
+        label: 'Indian Geography', content: `
+<h3>Physiographic Divisions of India</h3>
+<p>India can be divided into six major physiographic units: The Himalayan Mountains, The Northern Plains, The Peninsular Plateau, The Indian Desert, The Coastal Plains, and The Islands.</p>
+<div class="highlight-box">🔑 <strong>Himalayan Ranges (S to N):</strong> Shiwalik (Outer Himalayas) → Lesser Himalayas (Himachal) → Greater Himalayas (Himadri) → Trans-Himalayas (Tethys Himalayas). The Duns (intermontane valleys) lie between Shiwalik and Lesser Himalayas — e.g., Dehradun, Patli Dun, Kotah Dun.</div>
+<h3>River Systems of India</h3>
+<ul>
+<li><strong>Himalayan Rivers</strong>: Perennial (fed by snow melt + rainfall); form V-shaped valleys in mountains, alluvial fans in plains. <em>Ganga system</em>: Bhagirathi + Alaknanda → Ganga → Bay of Bengal. <em>Indus system</em>: Rises in Tibet, flows through Ladakh, Pakistan. <em>Brahmaputra</em>: Rises in Chemayungdung glacier (Tibet) as Tsangpo; longest river in the world by flow.</li>
+<li><strong>Peninsular Rivers</strong>: Rain-fed; seasonal; flow in valleys on hard rock; don't form deltas typically. <em>East-flowing</em>: Mahanadi, Godavari, Krishna, Cauvery (form deltas). <em>West-flowing</em>: Narmada, Tapi (form estuaries); flow through rift valleys.</li>
+<li><strong>Narmada</strong>: Flows between Vindhya and Satpura ranges; disputed waters governed by Narmada Waters Dispute Tribunal (Sardar Sarovar Dam).</li>
+</ul>
+<h3>Climate of India</h3>
+<ul>
+<li><strong>Monsoon type climate</strong>: Seasonal reversal of winds; SW Monsoon (June–September), NE Monsoon (Oct–Dec, affects Tamil Nadu coast).</li>
+<li><strong>ITCZ Migration</strong>: Inter-Tropical Convergence Zone migrates northward in summer, causing SW Monsoon onset. Kerala receives it first (approx. 1 June).</li>
+<li><strong>El Niño effect</strong>: Warming of Pacific SST causes weakening of Indian Monsoon; deficient rainfall years often correlated with strong El Niño events.</li>
+<li><strong>Western Disturbances</strong>: Extra-tropical cyclones originating in Mediterranean; bring winter rainfall to NW India (crucial for Rabi crops — wheat in Punjab, Haryana).</li>
+</ul>
+`
+      }
+    ]
+  },
+  {
+    id: 'economy',
+    cls: 's-economy',
+    icon: '💹',
+    title: 'Economy',
+    topics: '52 topics · Macro, Micro, Indian Economy',
+    chapters: 17, questions: 430, progress: 55,
+    color: '#e8821a',
+    desc: 'Fundamental concepts of Economics, Indian Economy, Planning, Monetary & Fiscal Policy, Banking System, International Trade, and Economic Survey insights.',
+    tabs: [
+      {
+        label: 'Monetary Policy', content: `
+<h3>Reserve Bank of India & Monetary Policy</h3>
+<p>The Reserve Bank of India (RBI) was established in 1935 under the Reserve Bank of India Act, 1934. It acts as the central bank of India — the banker's bank, government's bank, and the currency issuer. The primary objective of monetary policy is to maintain price stability while keeping in mind the objective of growth.</p>
+<div class="highlight-box">🔑 <strong>Monetary Policy Committee (MPC):</strong> Constituted under Section 45ZB of the RBI Act. 6 members: 3 from RBI (Governor, 2 Deputy Governors) and 3 external members appointed by the Central Government. Decisions by majority voting; Governor has casting vote. Meets at least 4 times a year.</div>
+<h3>Key Policy Rates (Learn to interpret RBI updates)</h3>
+<ul>
+<li><strong>Repo Rate</strong>: Rate at which RBI lends short-term funds to commercial banks against eligible securities. Increase → credit becomes costlier → inflation control. Decrease → cheaper credit → growth stimulus.</li>
+<li><strong>Reverse Repo Rate</strong>: Rate at which RBI borrows from commercial banks; absorbs excess liquidity. Usually 25 bps lower than Repo.</li>
+<li><strong>Marginal Standing Facility (MSF) Rate</strong>: Banks can borrow overnight from RBI against SLR securities (over and above their normal borrowing). Usually Repo + 25 bps; provides emergency liquidity.</li>
+<li><strong>Bank Rate</strong>: Rate at which RBI buys/discounts bills of exchange; penal rate for SLR deficiency. Aligned with MSF rate.</li>
+<li><strong>CRR (Cash Reserve Ratio)</strong>: Percentage of Net Demand and Time Liabilities (NDTL) kept as cash reserves with RBI; earns no interest for banks; direct liquidity control tool.</li>
+<li><strong>SLR (Statutory Liquidity Ratio)</strong>: Percentage of NDTL maintained in liquid assets (gold + cash + approved securities); currently 18%.</li>
+</ul>
+<h3>Inflation Targeting Framework</h3>
+<p>India adopted Inflation Targeting as the primary monetary policy framework in 2016 through an amendment to the RBI Act. The inflation target is set by the Government of India in consultation with the RBI every 5 years. Current target: 4% CPI inflation (with a band of ±2%). The MPC must explain to the government if inflation falls outside the band for 3 consecutive quarters.</p>
+`
+      },
+      {
+        label: 'Fiscal Policy', content: `
+<h3>Union Budget & Fiscal Management</h3>
+<p>The Union Budget is presented under Article 112 of the Constitution (Annual Financial Statement). The Finance Minister presents the budget in the Lok Sabha. Since 2017, the budget is presented on 1st February (previously on the last working day of February).</p>
+<div class="highlight-box">🔑 <strong>FRBM Act, 2003:</strong> Fiscal Responsibility and Budget Management Act requires fiscal deficit to be maintained at 3% of GDP. The Escape Clause allows 0.5% deviation in exceptional circumstances like national security, natural calamity, or far-reaching structural reforms.</div>
+<h3>Types of Deficits</h3>
+<ul>
+<li><strong>Revenue Deficit</strong>: Revenue expenditure exceeds revenue receipts. Indicates government is borrowing to meet day-to-day expenses (bad sign).</li>
+<li><strong>Fiscal Deficit</strong>: Total expenditure exceeds total receipts excluding borrowings. Shows government's total borrowing requirement. Financed by market borrowings, small savings, external assistance, RBI credit.</li>
+<li><strong>Primary Deficit</strong>: Fiscal Deficit minus Interest Payments. Indicates how much the government borrows to meet expenses other than interest payments. If zero, government borrows only to pay previous debts.</li>
+<li><strong>Capital Account Deficit</strong>: Capital receipts fall short of capital expenditure.</li>
+</ul>
+<h3>GST — Goods and Services Tax</h3>
+<p>GST, implemented on 1 July 2017, is a comprehensive indirect tax that subsumed most of the indirect taxes of central and state governments. India has adopted a dual GST structure where both Centre and States levy GST on goods and services simultaneously.</p>
+<ul>
+<li><strong>CGST</strong>: Central GST — levied by Centre on intra-state supply.</li>
+<li><strong>SGST/UTGST</strong>: State/UT GST — levied by States/UTs on intra-state supply.</li>
+<li><strong>IGST</strong>: Integrated GST — levied by Centre on inter-state supply; apportioned between Centre and States.</li>
+<li><strong>GST Council</strong>: Constitutional body (Art. 279A); chaired by Finance Minister; 2/3 weightage to states, 1/3 to Centre; decisions by 3/4 majority.</li>
+</ul>
+`
+      }
+    ]
+  },
+  {
+    id: 'environment',
+    cls: 's-environment',
+    icon: '🌿',
+    title: 'Environment & Ecology',
+    topics: '45 topics · Ecology, Biodiversity, Climate',
+    chapters: 15, questions: 310, progress: 48,
+    color: '#10b981',
+    desc: 'Ecosystem dynamics, Biodiversity and its Conservation, Environmental Pollution, Climate Change, International Environmental Conventions, and Environmental Acts of India.',
+    tabs: [
+      {
+        label: 'Ecology Basics', content: `
+<h3>Ecosystem — Structure & Function</h3>
+<p>An ecosystem is a functional unit of nature where living organisms interact among themselves and with their physical environment. It consists of biotic (living) and abiotic (non-living) components. The term "Ecosystem" was coined by A.G. Tansley in 1935.</p>
+<div class="highlight-box">🔑 <strong>Types of Pyramids:</strong> Pyramid of Number (can be inverted — e.g., one tree → many insects → fewer birds). Pyramid of Biomass (can be inverted in aquatic ecosystems — less phytoplankton biomass supports more zooplankton). Pyramid of Energy (always upright — energy decreases at each trophic level due to 10% law / Lindeman's Law).</div>
+<h3>Biogeochemical Cycles</h3>
+<ul>
+<li><strong>Carbon Cycle</strong>: Carbon is fixed by photosynthesis, released by respiration, decomposition, and combustion of fossil fuels. The ocean is the largest carbon sink. Atmospheric CO₂ concentration has crossed 420 ppm (Keeling Curve — Mauna Loa Observatory).</li>
+<li><strong>Nitrogen Cycle</strong>: 78% of atmosphere is N₂ but most organisms cannot use it directly. Nitrogen fixation by bacteria (Rhizobium in legume roots, Azobacter free-living). Nitrification → Ammonification → Denitrification (returns N₂ to atmosphere). Excess nitrogen causes eutrophication.</li>
+<li><strong>Phosphorus Cycle</strong>: No atmospheric phase; sedimentary cycle; slowest of all biogeochemical cycles. Excess phosphorus causes algal blooms in water bodies.</li>
+</ul>
+<h3>Biodiversity Hotspots in India</h3>
+<p>India is one of the 17 mega-diverse countries, hosting 4 of the world's 36 biodiversity hotspots: Western Ghats & Sri Lanka, Himalaya, Indo-Burma, and Sundaland (Nicobar Islands).</p>
+<ul>
+<li><strong>Western Ghats</strong>: UNESCO World Heritage Site; over 5,000 species of flowering plants, 139 mammal species, 508 bird species; Lion-tailed macaque, Nilgiri tahr, Purple frog (Nasikabatrachus sahyadrensis) are endemic.</li>
+<li><strong>Eastern Himalaya</strong>: Red Panda, Snow Leopard, Takin (state animal of Arunachal Pradesh).</li>
+</ul>
+`
+      },
+      {
+        label: 'Climate Change', content: `
+<h3>Global Climate Agreements</h3>
+<p>The international community has developed a series of agreements to address climate change, primarily under the United Nations Framework Convention on Climate Change (UNFCCC), which was opened for signature at the Earth Summit in Rio de Janeiro in 1992.</p>
+<div class="highlight-box">🔑 <strong>Paris Agreement (2015):</strong> Adopted at COP21; entered into force October 2016. Key goal: Limit global temperature rise to well below 2°C above pre-industrial levels and pursue efforts to limit to 1.5°C. Nationally Determined Contributions (NDCs) — country-specific climate pledges. India's NDC: Net Zero by 2070, 50% electric power from renewables by 2030, reduce emission intensity 45% by 2030 (from 2005 levels).</div>
+<h3>Greenhouse Gases (GHGs)</h3>
+<ul>
+<li><strong>Carbon Dioxide (CO₂)</strong>: Primary GHG from fossil fuel combustion; Global Warming Potential (GWP) baseline = 1.</li>
+<li><strong>Methane (CH₄)</strong>: From rice paddies, livestock (enteric fermentation), landfills, natural gas leaks; GWP = 25 (over 100 years).</li>
+<li><strong>Nitrous Oxide (N₂O)</strong>: From agricultural soils (nitrogenous fertilizers), animal manure; GWP = 298.</li>
+<li><strong>HFCs, PFCs, SF₆</strong>: Industrial gases; extremely high GWP (SF₆ GWP = 23,500!). HFCs being phased down under Kigali Amendment to Montreal Protocol.</li>
+</ul>
+<h3>India's Climate Initiatives</h3>
+<ul>
+<li><strong>National Action Plan on Climate Change (NAPCC), 2008</strong>: 8 National Missions — Solar Mission, Enhanced Energy Efficiency, Sustainable Habitat, Water Mission, Sustaining the Himalayan Ecosystem, Green India, Sustainable Agriculture, Strategic Knowledge for Climate Change.</li>
+<li><strong>International Solar Alliance (ISA)</strong>: Founded 2015 jointly by India & France; headquartered at Gurugram (originally National Institute of Solar Energy, Gurgaon); treaty-based organisation since 2017.</li>
+<li><strong>LIFE Mission (Lifestyle for Environment)</strong>: Launched by PM Modi at COP26 (Glasgow, 2021); promotes mindful utilisation of resources.</li>
+</ul>
+`
+      }
+    ]
+  },
+  {
+    id: 'science',
+    cls: 's-science',
+    icon: '🔬',
+    title: 'Science & Technology',
+    topics: '40 topics · Space, IT, Biotech, Defence',
+    chapters: 14, questions: 280, progress: 40,
+    color: '#ef4444',
+    desc: 'Developments in Space Technology, Biotechnology, Artificial Intelligence, Defence Technologies, Nanotechnology, and India\'s S&T ecosystem.',
+    tabs: [
+      {
+        label: 'Space Technology', content: `
+<h3>Indian Space Research Organisation (ISRO)</h3>
+<p>ISRO was established in 1969, taking over from the Indian National Committee for Space Research (INCOSPAR) set up in 1962 under Vikram Sarabhai. ISRO is headquartered at Bengaluru. The Department of Space, under the Prime Minister's Office, governs ISRO.</p>
+<div class="highlight-box">🔑 <strong>Chandrayaan-3 (2023):</strong> India became the 4th country to land on the Moon and the FIRST to land near the lunar south pole. Lander: Vikram, Rover: Pragyan. Launched on LVM3-M4 (GSLV Mk III). Landing: 23 August 2023 — designated as National Space Day. Pragyan rover traversed 100m on lunar surface.</div>
+<h3>Key ISRO Missions</h3>
+<ul>
+<li><strong>Chandrayaan-1 (2008)</strong>: India's first lunar mission; confirmed presence of water molecules on Moon's surface (by Moon Impact Probe). M3 instrument of NASA on board made the discovery.</li>
+<li><strong>Mars Orbiter Mission — Mangalyaan (2014)</strong>: First interplanetary mission of India; India became the first Asian country and 4th country globally to reach Mars; achieved in first attempt and at a fraction of cost.</li>
+<li><strong>Aditya-L1 (2023)</strong>: India's first solar mission; placed in a halo orbit around Lagrange Point 1 (L1) — 1.5 million km from Earth; studies solar corona, solar wind, space weather.</li>
+<li><strong>PSLV (Polar Satellite Launch Vehicle)</strong>: Most reliable launch vehicle; 4-stage alternating solid and liquid fuel; over 50 successful missions; launched Chandrayaan-1, MOM, Astrosat.</li>
+<li><strong>GSLV Mk III (LVM3)</strong>: India's heaviest and most powerful rocket; can carry 4-tonne class satellite to GTO; used for Chandrayaan-2, Chandrayaan-3, OneWeb satellites.</li>
+<li><strong>Gaganyaan Mission</strong>: India's first crewed spaceflight program; to send 3 Indian astronauts (Vyomanauts) to orbit at 400 km altitude for 3 days; expected around 2025.</li>
+</ul>
+<h3>Artificial Intelligence in India</h3>
+<ul>
+<li><strong>National AI Strategy (NITI Aayog, 2018)</strong>: #AIforAll; focus sectors — agriculture, healthcare, education, smart cities, smart mobility.</li>
+<li><strong>IndiaAI Mission (2024)</strong>: ₹10,371 crore; building sovereign AI compute infrastructure (10,000+ GPU compute capacity); focus on AI safety, IndiaAI datasets platform, AI application development.</li>
+<li><strong>BharatGen</strong>: India's multimodal foundational model initiative for Indian languages.</li>
+</ul>
+`
+      },
+      {
+        label: 'Biotechnology', content: `
+<h3>Key Biotechnology Developments</h3>
+<p>Biotechnology involves the use of biological systems, living organisms, or derivatives thereof to develop products and processes for specific use. Modern biotechnology encompasses genetic engineering, genomics, proteomics, bioinformatics, and many other disciplines.</p>
+<div class="highlight-box">🔑 <strong>CRISPR-Cas9:</strong> Nobel Prize in Chemistry 2020 was awarded to Jennifer Doudna and Emmanuelle Charpentier for developing CRISPR-Cas9 — "genetic scissors." India's first CRISPR-based diagnostic tool for COVID-19: FELUDA (FNCAS9 Editor-Linked Uniform Detection Assay), developed by CSIR-IGIB and Tata Group.</div>
+<h3>GM Crops & Biosafety in India</h3>
+<ul>
+<li><strong>Bt Cotton</strong>: Only approved GM crop for commercial cultivation in India; approved in 2002; contains cry genes from Bacillus thuringiensis; produces proteins toxic to bollworm pests. India is among world's largest Bt Cotton cultivators.</li>
+<li><strong>Genetic Engineering Appraisal Committee (GEAC)</strong>: Under Ministry of Environment, Forest and Climate Change; approves large-scale environmental releases of GMOs. Its approval is needed for field trials and commercial release.</li>
+<li><strong>Bt Brinjal</strong>: GEAC approved field trials but moratorium imposed in 2010 by Environment Minister Jairam Ramesh; Bangladesh commercially cultivated it successfully.</li>
+<li><strong>HMIS (Human Genome India Initiative)</strong>: Maps genetic diversity of Indian populations; 1,000 individuals from 99 population groups sequenced.</li>
+</ul>
+`
+      }
+    ]
+  }
+];
+
+const CA_DATA = [
+  {
+    date: '8 April 2026',
+    title: 'RBI Monetary Policy 2026-27 — Key Highlights',
+    body: 'The RBI kept the repo rate unchanged to balance inflation control and economic growth. Focus remains on digital currency expansion and managing global supply chain shifts.',
+    expanded: 'The MPC decided to maintain the status quo on key policy rates. Headline inflation is projected to remain within the 4% target. Important updates included the expansion of the e-Rupee (CBDC) to more retail sectors and strict guidelines for NBFCs to maintain liquidity. The GDP growth forecast for FY27 remains robust at 7.1%.',
+    tags: ['Economy', 'RBI', 'Monetary Policy'],
+    category: 'economy'
+  },
+  {
+    date: '5 April 2026',
+    title: 'India\'s AI Mission: BharatGen Rollout Expanded',
+    body: 'The government expanded the BharatGen initiative, bringing indigenous foundational AI models to agriculture and healthcare sectors across 15 states.',
+    expanded: 'Backed by the IndiaAI Mission, this phase focuses on translating complex weather and crop data into local languages for farmers using voice-based AI. In healthcare, the AI will assist primary health centres in rural areas to diagnose early-stage tuberculosis and diabetic retinopathy.',
+    tags: ['Science & Tech', 'AI', 'Governance'],
+    category: 'science'
+  },
+  {
+    date: '2 April 2026',
+    title: 'New Ramsar Sites in 2026 — Total Reaches 92',
+    body: 'India added 3 more wetlands to the Ramsar Convention list this year, strengthening its position in global biodiversity conservation.',
+    expanded: 'The new sites include crucial ecological zones from the North-East and coastal Andhra Pradesh. This brings India\'s total Ramsar sites to 92. The Ministry of Environment emphasised that local community participation will be central to managing these new wetland areas under the Amrit Dharohar scheme.',
+    tags: ['Environment', 'Biodiversity', 'Conservation'],
+    category: 'environment'
+  },
+  {
+    date: '28 March 2026',
+    title: 'G20 Summit Follow-up: India-Brazil Clean Energy Pact',
+    body: 'India and Brazil signed a comprehensive pact on biofuel technology sharing and deep-sea exploration, building on the Global Biofuels Alliance.',
+    expanded: 'The agreement will see technology transfers for ethanol blending (E20 program) and joint research in sustainable aviation fuel (SAF). Both nations also agreed to coordinate their positions on WTO agricultural subsidies to protect developing nations\' food security programs.',
+    tags: ['International Relations', 'Energy', 'Economy'],
+    category: 'international'
+  }
+];
+
+const PYQ_DATA = {
+  prelims: {
+    downloads: [
+      { year: '2023', title: 'UPSC Prelims 2023 — GS Paper I', size: '2.4 MB', qs: 100 },
+      { year: '2022', title: 'UPSC Prelims 2022 — GS Paper I', size: '2.1 MB', qs: 100 },
+      { year: '2021', title: 'UPSC Prelims 2021 — GS Paper I', size: '1.9 MB', qs: 100 }
+    ],
+    years: [
+      {
+        year: '2023', qs: 100, difficulty: 'Moderate',
+        questions: [
+          {
+            q: 'With reference to the treatment of diseases, which of the following pairs is/are correctly matched? 1. Parkinson\'s disease — Levodopa; 2. Leishmaniasis — Miltefosine; 3. Hepatitis C — Oseltamivir. Select the correct answer using the code given below:',
+            opts: ['1 and 2 only', '2 and 3 only', '1 and 3 only', '1, 2 and 3'],
+            correct: 0
+          },
+          {
+            q: 'Consider the following statements: 1. In India, the Central Government directs the State Governments to reserve lands for grazing. 2. In India, there is a central legislation to provide for the conservation and protection of pastures and grazing lands. Which of the statements given above is/are correct?',
+            opts: ['1 only', '2 only', 'Both 1 and 2', 'Neither 1 nor 2'],
+            correct: 3
+          },
+          {
+            q: '"Nutrient use efficiency" is a measure of how efficiently crops use the nutrients available in the soil. Which of the following factors affect the nutrient use efficiency in plants? 1. Soil characteristics; 2. Climate; 3. Plant genotype; 4. Root microbiome. Select the correct answer:',
+            opts: ['1, 2 and 4 only', '2 and 3 only', '1, 3 and 4 only', '1, 2, 3 and 4'],
+            correct: 3
+          }
+        ]
+      },
+      {
+        year: '2022', qs: 100, difficulty: 'Hard',
+        questions: [
+          {
+            q: 'In India, which of the following can be considered as public interest litigation (PIL)? 1. Fishermen\'s associations against establishment of SEZs in coastal areas. 2. Tribal communities against displacement from forest lands. Select the correct answer:',
+            opts: ['1 only', '2 only', 'Both 1 and 2', 'Neither 1 nor 2'],
+            correct: 2
+          },
+          {
+            q: 'Which of the following is/are the possible consequence/consequences of heavy sand mining in riverbeds? 1. Decrease in the level of water table; 2. Saline water intrusion into the river. Select the correct answer:',
+            opts: ['1 only', '2 only', 'Both 1 and 2', 'Neither 1 nor 2'],
+            correct: 2
+          }
+        ]
+      },
+      {
+        year: '2021', qs: 100, difficulty: 'Moderate',
+        questions: [
+          {
+            q: 'What is the importance of the Peoples\' Biodiversity Registers (PBRs) in India? 1. These are maintained by local bodies and contain information on local biological resources. 2. These help in implementing the Nagoya Protocol. Select the correct answer:',
+            opts: ['1 only', '2 only', 'Both 1 and 2', 'Neither 1 nor 2'],
+            correct: 2
+          }
+        ]
+      }
+    ]
+  },
+  mains: {
+    downloads: [
+      { year: '2023', title: 'UPSC Mains 2023 — GS I, II, III, IV', size: '3.8 MB', qs: 80 },
+      { year: '2022', title: 'UPSC Mains 2022 — GS I, II, III, IV', size: '3.5 MB', qs: 80 },
+      { year: '2021', title: 'UPSC Mains 2021 — GS I, II, III, IV', size: '3.2 MB', qs: 80 }
+    ],
+    years: [
+      {
+        year: '2023', qs: 20, difficulty: 'High',
+        questions: [
+          {
+            q: 'Explain the role of the Governor in a State, highlighting instances when Governor\'s discretionary powers can be exercised. (GS II, 2023)',
+            opts: ['Answer in 150 words (10 marks)', 'GS Paper II — Indian Polity', 'Includes discretionary powers under Art. 163', 'See Constitutional provisions Art. 153–167'],
+            correct: 0
+          },
+          {
+            q: 'Discuss the challenges and opportunities for developing India as a global maritime power. How do India\'s Exclusive Economic Zone and blue economy potential relate to this ambition? (GS III, 2023)',
+            opts: ['Answer in 250 words (15 marks)', 'GS Paper III — Economy & Security', 'Reference: Sagar Mala, Indo-Pacific Strategy', 'Mention UNCLOS provisions'],
+            correct: 0
+          }
+        ]
+      },
+      {
+        year: '2022', qs: 20, difficulty: 'High',
+        questions: [
+          {
+            q: '"The most significant achievement of modern law in India is the constitutionalisation of environmental problems by the Supreme Court." Discuss. (GS III, 2022)',
+            opts: ['Answer in 250 words (15 marks)', 'Reference: Art. 48A, 51A(g), Judicial activism', 'Cases: M.C. Mehta, Vellore Citizens', 'GS Paper III — Environment'],
+            correct: 0
+          }
+        ]
+      }
+    ]
+  },
+  csat: {
+    downloads: [
+      { year: '2023', title: 'UPSC CSAT 2023 — Paper II', size: '1.8 MB', qs: 80 },
+      { year: '2022', title: 'UPSC CSAT 2022 — Paper II', size: '1.6 MB', qs: 80 }
+    ],
+    years: [
+      {
+        year: '2023', qs: 80, difficulty: 'Moderate',
+        questions: [
+          {
+            q: 'A train 100 m long, travelling at 63 km/h, overtakes another train travelling in the same direction at 54 km/h. If the second train is 200 m long, what is the time taken by the first train to pass the second train completely? (CSAT 2023)',
+            opts: ['100 seconds', '120 seconds', '80 seconds', '60 seconds'],
+            correct: 1
+          },
+          {
+            q: 'The passage below discusses digital literacy and its impact. Comprehension question: According to the passage, which of the following best describes the relationship between digital literacy and economic empowerment in rural India?',
+            opts: ['They are mutually exclusive phenomena', 'Digital literacy is a necessary but not sufficient condition', 'Economic empowerment inevitably leads to digital literacy', 'Both have no correlation in rural contexts'],
+            correct: 1
+          }
+        ]
+      }
+    ]
+  }
+};
+
+const QUIZ_QUESTIONS = [
+  {
+    question: 'Which of the following statements about the Preamble of the Indian Constitution is/are correct?\n1. The Preamble can be amended under Article 368 of the Constitution.\n2. The words "Socialist" and "Secular" were added to the Preamble by the 44th Constitutional Amendment.\n3. The Preamble is an integral part of the Constitution as ruled by the Supreme Court in the Kesavananda Bharati case.\nSelect the correct answer:',
+    options: ['1 and 3 only', '2 and 3 only', '1 only', '1, 2 and 3'],
+    correct: 0,
+    explanation: 'Statement 1 is correct: The Preamble can be amended (Kesavananda Bharati case, 1973). Statement 2 is incorrect: "Socialist" and "Secular" were added by the 42nd Amendment (1976), not the 44th. Statement 3 is correct: In Kesavananda Bharati (1973), the SC ruled the Preamble is part of the Constitution and can be amended but Basic Structure cannot be altered.'
+  },
+  {
+    question: 'Consider the following statements about India\'s Exclusive Economic Zone (EEZ):\n1. India\'s EEZ extends up to 200 nautical miles from its baseline.\n2. The EEZ gives India exclusive rights to explore and exploit natural resources including fisheries and seabed minerals.\n3. Foreign warships have the right of innocent passage through India\'s EEZ without any restrictions.\nWhich of the above statements is/are correct?',
+    options: ['1 and 2 only', '2 and 3 only', '1 and 3 only', '1, 2 and 3'],
+    correct: 0,
+    explanation: 'Statements 1 and 2 are correct. Under UNCLOS (United Nations Convention on the Law of the Sea), the EEZ extends to 200 nautical miles, and the coastal state has exclusive rights to natural resources. Statement 3 is incorrect: The concept of "innocent passage" applies to the territorial sea (12 nm), not the EEZ. In the EEZ, freedom of navigation generally applies but with certain conditions.'
+  },
+  {
+    question: 'The "Basic Structure Doctrine" of the Indian Constitution was established in which landmark Supreme Court case? This doctrine holds that certain fundamental features of the Constitution cannot be altered even through a constitutional amendment.',
+    options: ['Golak Nath v. State of Punjab (1967)', 'Kesavananda Bharati v. State of Kerala (1973)', 'Minerva Mills v. Union of India (1980)', 'Maneka Gandhi v. Union of India (1978)'],
+    correct: 1,
+    explanation: 'The Basic Structure Doctrine was established in Kesavananda Bharati v. State of Kerala (1973). By a 7:6 majority, the Supreme Court ruled that while Parliament can amend any part of the Constitution under Article 368, it cannot alter the "basic structure" — which includes supremacy of the Constitution, democratic character, secular character, separation of powers, and judicial review.'
+  },
+  {
+    question: 'Which of the following are correctly matched?\n1. Agenda 2030 — 17 Sustainable Development Goals\n2. Nagoya Protocol — Access and Benefit Sharing of genetic resources\n3. Stockholm Convention — Control of persistent organic pollutants\n4. Minamata Convention — Control of mercury pollution\nSelect the correct answer:',
+    options: ['1, 2 and 3 only', '2, 3 and 4 only', '1, 2 and 4 only', '1, 2, 3 and 4'],
+    correct: 3,
+    explanation: 'All four pairs are correctly matched. Agenda 2030 has 17 SDGs and 169 targets (adopted 2015). Nagoya Protocol (2010, in force 2014) is a supplementary agreement to the CBD on Access and Benefit Sharing. Stockholm Convention (2001) controls POPs (Dirty Dozen). Minamata Convention (2013, named after Minamata disease in Japan) addresses mercury pollution globally.'
+  },
+  {
+    question: 'With reference to the Monetary Policy Committee (MPC) of the Reserve Bank of India, which of the following statements is/are correct?\n1. The MPC is headed by the Finance Minister of India as its ex-officio Chairperson.\n2. The MPC consists of six members, of whom three are from the RBI and three are external members.\n3. A decision of the MPC is taken by majority, with the Governor of RBI having a casting vote in case of a tie.\nSelect the correct answer:',
+    options: ['1 and 2 only', '2 and 3 only', '1 and 3 only', '1, 2 and 3'],
+    correct: 1,
+    explanation: 'Statement 1 is incorrect: The MPC is chaired by the Governor of the RBI, not the Finance Minister. The Finance Minister chairs the GST Council, not MPC. Statement 2 is correct: MPC has 6 members — RBI Governor + 2 RBI Deputy Governors + 3 external members appointed by the Central Government. Statement 3 is correct: Decisions are by majority vote; in case of equality of votes, the Governor of RBI has a second/casting vote (Section 45ZI of RBI Act).'
+  }
+];
+
+const BOOKS_DATA = [
+  { title: 'Indian Polity', author: 'M. Laxmikanth', category: 'polity', edition: '7th Ed. 2026', rating: 4.9, icon: '⚖️', color: '#1a56db', tags: ['Prelims', 'Mains'], desc: 'The definitive guide for UPSC Polity. Covers Constitution, Parliament, Judiciary, and Governance exhaustively.' },
+  { title: 'Brief History of Modern India', author: 'Rajiv Ahir (Spectrum)', category: 'history', edition: '2026 Edition', rating: 4.7, icon: '🏛️', color: '#7c3aed', tags: ['Prelims'], desc: 'Comprehensive coverage of Modern Indian History from 1757 to Independence. Exam-oriented presentation.' },
+  { title: 'Certificate Physical and Human Geography', author: 'Goh Cheng Leong', category: 'geography', edition: 'Oxford Edition', rating: 4.5, icon: '🌍', color: '#059669', tags: ['Prelims'], desc: 'Classic geography text for UPSC. Covers all physical geography concepts tested in UPSC Prelims.' },
+  { title: 'Indian Economy', author: 'Ramesh Singh', category: 'economy', edition: '17th Ed. 2026', rating: 4.6, icon: '💹', color: '#e8821a', tags: ['Prelims', 'Mains'], desc: 'Most comprehensive single-volume book on Indian Economy covering all aspects of economic policies.' },
+  { title: 'Ancient India', author: 'R.S. Sharma (NCERT)', category: 'history', edition: 'Latest NCERT', rating: 4.4, icon: '📜', color: '#7c3aed', tags: ['Foundation'], desc: 'Essential NCERT text for Ancient Indian history. Forms the backbone of UPSC History preparation.' },
+  { title: 'India\'s Struggle for Independence', author: 'Bipan Chandra et al.', category: 'history', edition: 'Penguin Edition', rating: 4.8, icon: '🇮🇳', color: '#ef4444', tags: ['Mains'], desc: 'In-depth narrative of India\'s Freedom Movement. Essential for Mains GS-I and essay paper.' },
+  { title: 'Environment & Ecology', author: 'Majid Husain / Shankar IAS', category: 'environment', edition: '2026 Edition', rating: 4.5, icon: '🌿', color: '#10b981', tags: ['Prelims', 'Mains'], desc: 'Covers ecology basics, biodiversity, conservation, pollution, climate change, and international conventions.' },
+  { title: 'Science & Technology', author: 'Ravi P. Agrahari', category: 'science', edition: '8th Ed. 2026', rating: 4.3, icon: '🔬', color: '#ef4444', tags: ['Prelims'], desc: 'Updated coverage of S&T developments relevant to UPSC — Space, Biotech, IT, Defence technologies.' },
+  { title: 'Oxford Atlas of the World', author: 'Oxford University Press', category: 'geography', edition: '31st Ed. 2026', rating: 4.6, icon: '🗺️', color: '#059669', tags: ['Foundation', 'Maps'], desc: 'Comprehensive atlas essential for UPSC Geography. Covers physical, political, and thematic maps.' },
+  { title: 'Economic Survey (2025-26)', author: 'Ministry of Finance, GoI', category: 'economy', edition: '2025-26', rating: 4.8, icon: '📊', color: '#e8821a', tags: ['Mains', 'Current'], desc: 'Annual government publication. Essential reading for Mains — provides data, trends, and policy analysis.' },
+  { title: 'Ecology and Environment', author: 'P.D. Sharma', category: 'environment', edition: 'Rastogi Publications', rating: 4.2, icon: '🦋', color: '#10b981', tags: ['Optional'], desc: 'Standard reference for Environment optional and GS sections. Detailed ecological concepts.' },
+  { title: 'Introduction to the Constitution of India', author: 'D.D. Basu', category: 'polity', edition: '24th Ed. 2026', rating: 4.7, icon: '📖', color: '#1a56db', tags: ['Mains', 'Advanced'], desc: 'Authoritative legal commentary on the Indian Constitution. Essential for Polity Mains and UPSC Essay.' }
+];
+
+
+const PLANNER_TASKS_DEFAULT = [
+  { label: 'Read The Hindu Editorial — International Relations', done: false, duration: '45 min', priority: 'high' },
+  { label: 'Revise Polity — Chapter 6: Directive Principles', done: false, duration: '1 hr', priority: 'high' },
+  { label: 'Practice 30 MCQs — History (Modern India)', done: false, duration: '45 min', priority: 'med' },
+  { label: 'Study Geography — Chapter 12: Soils of India', done: false, duration: '1 hr', priority: 'med' },
+  { label: 'Write 200-word answer: "Role of Civil Society in Democracy"', done: false, duration: '30 min', priority: 'high' },
+  { label: 'Revise Current Affairs — Last 7 days', done: false, duration: '30 min', priority: 'low' },
+  { label: 'Watch RSTV — Big Picture (Economy episode)', done: false, duration: '30 min', priority: 'low' }
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let currentSection = 'home';
+let sidebarOpen = false;
+let darkMode = false;
+let plannerTasks = JSON.parse(JSON.stringify(PLANNER_TASKS_DEFAULT));
+let quizState = {
+  active: false,
+  current: 0,
+  answers: new Array(QUIZ_QUESTIONS.length).fill(null),
+  timer: null,
+  timeLeft: 3600,
+  submitted: false
+};
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function navigateTo(sectionId) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById('section-' + sectionId);
+  if (target) target.classList.add('active');
+
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const activeNav = document.querySelector('.nav-item[data-section="' + sectionId + '"]');
+  if (activeNav) activeNav.classList.add('active');
+
+  currentSection = sectionId;
+  if (window.innerWidth <= 768) closeSidebar();
+
+  // Section-specific init
+  if (sectionId === 'home') initHome();
+  if (sectionId === 'planner') initPlanner();
+  if (sectionId === 'subjects') initSubjects();
+  if (sectionId === 'current-affairs') initCA();
+  if (sectionId === 'pyq') initPYQ();
+  if (sectionId === 'resources') initBooks();
+  if (sectionId === 'mock-test') initMockTest();
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================================
+// SIDEBAR & HAMBURGER
+// ============================================================
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+  sidebarOpen = true;
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  sidebarOpen = false;
+}
+function toggleSidebar() {
+  sidebarOpen ? closeSidebar() : openSidebar();
+}
+
+// ============================================================
+// DARK MODE
+// ============================================================
+function toggleTheme() {
+  darkMode = !darkMode;
+  document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : '');
+  document.getElementById('themeIcon').textContent = darkMode ? '☀️' : '🌙';
+  document.getElementById('themeLabel').textContent = darkMode ? 'Light' : 'Dark';
+  showToast(darkMode ? '🌙 Dark mode enabled' : '☀️ Light mode enabled');
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+// ============================================================
+// SEARCH
+// ============================================================
+const SEARCH_INDEX = [
+  { label: 'Dashboard', sub: 'Home', section: 'home', icon: '🏠' },
+  { label: 'Subject Notes', sub: 'Browse all subjects', section: 'subjects', icon: '📚' },
+  { label: 'Indian Polity Notes', sub: 'Subjects', section: 'subjects', icon: '⚖️' },
+  { label: 'History Notes — Ancient India', sub: 'Subjects', section: 'subjects', icon: '🏛️' },
+  { label: 'Geography Notes', sub: 'Subjects', section: 'subjects', icon: '🌍' },
+  { label: 'Economy & RBI Monetary Policy', sub: 'Subjects', section: 'subjects', icon: '💹' },
+  { label: 'Environment & Ecology Notes', sub: 'Subjects', section: 'subjects', icon: '🌿' },
+  { label: 'Science & Technology', sub: 'Subjects', section: 'subjects', icon: '🔬' },
+  { label: 'Current Affairs', sub: 'Daily Updates', section: 'current-affairs', icon: '📰' },
+  { label: 'RBI Monetary Policy', sub: 'Current Affairs', section: 'current-affairs', icon: '💰' },
+  { label: 'Ramsar Sites India', sub: 'Current Affairs', section: 'current-affairs', icon: '🌿' },
+  { label: 'India-EU TTC Meeting', sub: 'Current Affairs', section: 'current-affairs', icon: '🌍' },
+  { label: 'Mock Test — UPSC Prelims', sub: 'Practice', section: 'mock-test', icon: '✍️' },
+  { label: 'Previous Year Questions', sub: 'UPSC Papers', section: 'pyq', icon: '📜' },
+  { label: 'UPSC Prelims PYQ 2023', sub: 'PYQ', section: 'pyq', icon: '📋' },
+  { label: 'Study Planner', sub: 'Daily Targets', section: 'planner', icon: '📅' },
+  { label: 'Books & Resources', sub: 'Library', section: 'resources', icon: '📖' },
+  { label: 'Indian Polity by Laxmikanth', sub: 'Books', section: 'resources', icon: '📘' },
+  { label: 'Spectrum Modern History', sub: 'Books', section: 'resources', icon: '📕' },
+  { label: 'Fundamental Rights', sub: 'Polity Notes', section: 'subjects', icon: '⚖️' },
+  { label: 'Preamble of Constitution', sub: 'Polity Notes', section: 'subjects', icon: '📜' },
+  { label: 'Bharat Mata — Chandrayaan-3', sub: 'Science & Tech', section: 'subjects', icon: '🚀' },
+  { label: 'Indus Valley Civilisation', sub: 'History Notes', section: 'subjects', icon: '🏺' },
+  { label: 'GST — Indirect Taxation', sub: 'Economy Notes', section: 'subjects', icon: '💹' },
+  { label: 'Climate Change & Paris Agreement', sub: 'Environment Notes', section: 'subjects', icon: '🌡️' }
+];
+
+function initSearch() {
+  const input = document.getElementById('globalSearch');
+  const results = document.getElementById('searchResults');
+  input.addEventListener('input', function() {
+    const q = this.value.trim().toLowerCase();
+    if (!q) { results.classList.remove('open'); return; }
+    const filtered = SEARCH_INDEX.filter(item =>
+      item.label.toLowerCase().includes(q) || item.sub.toLowerCase().includes(q)
+    ).slice(0, 7);
+    if (!filtered.length) { results.classList.remove('open'); return; }
+    results.innerHTML = filtered.map(item => `
+      <div class="search-result-item" onclick="handleSearchClick('${item.section}')">
+        <span class="sri-icon">${item.icon}</span>
+        <div>
+          <div class="sri-label">${item.label}</div>
+          <div class="sri-sub">${item.sub}</div>
+        </div>
+      </div>
+    `).join('');
+    results.classList.add('open');
+  });
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.search-bar')) results.classList.remove('open');
+  });
+}
+
+function handleSearchClick(section) {
+  document.getElementById('globalSearch').value = '';
+  document.getElementById('searchResults').classList.remove('open');
+  navigateTo(section);
+  showToast('Navigating to ' + section.replace('-', ' '));
+}
+
+// ============================================================
+// HOME INIT
+// ============================================================
+function initHome() {
+  // Countdown to UPSC Prelims 2026 (Tentative: 31 May 2026)
+  const prelims = new Date('2026-05-31T00:00:00');
+  const now = new Date();
+  const diff = Math.ceil((prelims - now) / (1000 * 60 * 60 * 24));
+  const display = diff > 0 ? diff : 'TBD';
+  const daysLeftEl = document.getElementById('daysLeft');
+  const statDaysEl = document.getElementById('statDays');
+  if (daysLeftEl) daysLeftEl.textContent = display;
+  if (statDaysEl) statDaysEl.textContent = display > 0 ? display + 'd' : '—';
+
+  // Date
+  const dateEl = document.getElementById('todayDate');
+  if (dateEl) dateEl.textContent = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+  const plannerLabelEl = document.getElementById('plannerDateLabel');
+  if (plannerLabelEl) plannerLabelEl.textContent = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' });
+}
+
+// Quick target on home
+const quickTargetDone = [false, false, false, false];
+function updateQuickTarget(idx) {
+  quickTargetDone[idx] = !quickTargetDone[idx];
+  const item = document.getElementById('qt-' + idx);
+  if (item) item.classList.toggle('done', quickTargetDone[idx]);
+  const done = quickTargetDone.filter(Boolean).length;
+  const fill = document.getElementById('quickProgressFill');
+  const meta = document.getElementById('quickTargetMeta');
+  if (fill) fill.style.width = (done / 4 * 100) + '%';
+  if (meta) meta.textContent = done + ' / 4 done';
+}
+
+// ============================================================
+// SUBJECTS INIT
+// ============================================================
+function initSubjects() {
+  const grid = document.getElementById('subjectsGrid');
+  if (!grid || grid.dataset.built) return;
+  grid.dataset.built = '1';
+  grid.innerHTML = SUBJECTS_DATA.map(s => `
+    <div class="subject-card ${s.cls}" onclick="openSubjectDetail('${s.id}')">
+      <div class="subject-card-header">
+        <div class="sc-icon">${s.icon}</div>
+        <div class="sc-title">${s.title}</div>
+        <div class="sc-topics">${s.topics}</div>
+      </div>
+      <div class="subject-card-body">
+        <div class="sc-meta">
+          <span>📑 ${s.chapters} Chapters</span>
+          <span>❓ ${s.questions} Q's</span>
+        </div>
+        <div class="sc-progress">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-bottom:4px;"><span>Progress</span><span>${s.progress}%</span></div>
+          <div class="sc-progress-bar"><div class="sc-progress-fill" style="width:${s.progress}%;background:${s.color}"></div></div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openSubjectDetail(id) {
+  const s = SUBJECTS_DATA.find(x => x.id === id);
+  if (!s) return;
+  document.getElementById('subjectsListView').style.display = 'none';
+  const detail = document.getElementById('subjectDetailView');
+  detail.classList.add('open');
+  document.getElementById('sdh-label').textContent = s.title + ' — UPSC GS';
+  document.getElementById('sdh-title').textContent = s.title;
+  document.getElementById('sdh-desc').textContent = s.desc;
+  document.getElementById('subjectDetailHeader').style.background = `linear-gradient(135deg, ${s.color}, ${s.color}99)`;
+
+  const tabs = document.getElementById('notesTabs');
+  const contents = document.getElementById('notesTabContents');
+  tabs.innerHTML = s.tabs.map((t, i) => `<div class="notes-tab${i===0?' active':''}" onclick="switchNotesTab(${i}, this)">${t.label}</div>`).join('');
+  contents.innerHTML = s.tabs.map((t, i) => `<div class="notes-tab-content${i===0?' active':''}" id="ntc-${i}"><div class="notes-content">${t.content}</div></div>`).join('');
+}
+
+function closeSubjectDetail() {
+  document.getElementById('subjectsListView').style.display = '';
+  const detail = document.getElementById('subjectDetailView');
+  detail.classList.remove('open');
+}
+
+function switchNotesTab(idx, el) {
+  document.querySelectorAll('.notes-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.notes-tab-content').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const target = document.getElementById('ntc-' + idx);
+  if (target) target.classList.add('active');
+}
+
+// ============================================================
+// CURRENT AFFAIRS INIT
+// ============================================================
+let caFilter = 'all';
+function initCA() {
+  renderCA();
+}
+function renderCA() {
+  const container = document.getElementById('caTimeline');
+  if (!container) return;
+  const filtered = caFilter === 'all' ? CA_DATA : CA_DATA.filter(c => c.category === caFilter);
+  container.innerHTML = filtered.map((c, i) => `
+    <div class="ca-entry" data-cat="${c.category}">
+      <div class="ca-dot"></div>
+      <div class="ca-date">📅 ${c.date}</div>
+      <div class="ca-title">${c.title}</div>
+      <div class="ca-body">${c.body}</div>
+      <div class="ca-tags">${c.tags.map(t => `<span class="ca-tag">${t}</span>`).join('')}</div>
+      <button class="ca-expand-btn" onclick="toggleCAExpand(${i}, this)">Read More ↓</button>
+      <div class="ca-expanded" id="ca-exp-${i}">${c.expanded}</div>
+    </div>
+  `).join('');
+}
+function filterCA(f, el) {
+  caFilter = f;
+  document.querySelectorAll('.ca-filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderCA();
+}
+function toggleCAExpand(idx, btn) {
+  const exp = document.getElementById('ca-exp-' + idx);
+  const isOpen = exp.classList.toggle('open');
+  btn.textContent = isOpen ? 'Read Less ↑' : 'Read More ↓';
+}
+
+// ============================================================
+// PYQ INIT
+// ============================================================
+function initPYQ() {
+  renderPYQ('prelims');
+  renderPYQ('mains');
+  renderPYQ('csat');
+}
+
+function renderPYQ(type) {
+  const data = PYQ_DATA[type];
+  // Downloads
+  const dlEl = document.getElementById(type + 'Downloads');
+  if (dlEl && !dlEl.dataset.built) {
+    dlEl.dataset.built = '1';
+    dlEl.innerHTML = data.downloads.map(d => `
+      <div class="download-card" onclick="showToast('📥 Downloading ${d.title}...')">
+        <div class="dl-icon">📄</div>
+        <div class="dl-info"><strong>${d.title}</strong><span>${d.qs} Questions · ${d.size}</span></div>
+        <button class="dl-btn" onclick="event.stopPropagation(); showToast('📥 Downloading PDF...')">↓ PDF</button>
+      </div>
+    `).join('');
+  }
+  // Accordions
+  const accEl = document.getElementById(type + 'Accordions');
+  if (accEl && !accEl.dataset.built) {
+    accEl.dataset.built = '1';
+    accEl.innerHTML = data.years.map((y, yi) => `
+      <div class="year-accordion" id="acc-${type}-${yi}">
+        <div class="year-accordion-header" onclick="toggleAccordion('acc-${type}-${yi}')">
+          <div class="yah-left">
+            <span class="year-badge">${y.year}</span>
+            <div class="yah-info"><strong>UPSC ${type === 'prelims' ? 'Prelims' : type === 'csat' ? 'CSAT Paper II' : 'Mains GS'} — ${y.year}</strong><span>${y.qs} Questions · Difficulty: ${y.difficulty}</span></div>
+          </div>
+          <span class="yah-arrow">▼</span>
+        </div>
+        <div class="year-accordion-body">
+          <div class="pyq-question-list">
+            ${y.questions.map((q, qi) => `
+              <div class="pyq-question">
+                <div class="pyq-q-number">Question ${qi + 1}</div>
+                <div class="pyq-q-text">${q.q}</div>
+                <div class="pyq-q-options">
+                  ${q.opts.map((o, oi) => `<div class="pyq-q-option${oi === q.correct ? ' correct' : ''}"><span class="opt-key">${String.fromCharCode(65+oi)}.</span>${o}${oi === q.correct ? ' ✓' : ''}</div>`).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+function toggleAccordion(id) {
+  const acc = document.getElementById(id);
+  if (acc) acc.classList.toggle('open');
+}
+
+function switchPYQTab(type, el) {
+  document.querySelectorAll('.pyq-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.pyq-tab-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  const panel = document.getElementById('pyq-' + type);
+  if (panel) panel.classList.add('active');
+}
+
+// ============================================================
+// MOCK TEST / QUIZ
+// ============================================================
+function initMockTest() {
+  if (!quizState.active && !quizState.submitted) {
+    showTestLanding();
+  }
+}
+
+function showTestLanding() {
+  document.getElementById('testLanding').style.display = '';
+  document.getElementById('quizContainer').classList.remove('active');
+  document.getElementById('resultCard').classList.remove('active');
+}
+
+function startQuiz() {
+  quizState = {
+    active: true,
+    current: 0,
+    answers: new Array(QUIZ_QUESTIONS.length).fill(null),
+    timer: null,
+    timeLeft: 3600,
+    submitted: false
+  };
+  document.getElementById('testLanding').style.display = 'none';
+  document.getElementById('resultCard').classList.remove('active');
+  document.getElementById('quizContainer').classList.add('active');
+
+  renderQuestion();
+  startTimer();
+}
+
+function renderQuestion() {
+  const q = QUIZ_QUESTIONS[quizState.current];
+  const area = document.getElementById('questionArea');
+  const n = quizState.current;
+  const ans = quizState.answers[n];
+
+  area.innerHTML = `
+    <div class="question-card">
+      <div class="q-number-tag">Question ${n+1} of ${QUIZ_QUESTIONS.length} — General Studies I</div>
+      <div class="q-text" style="white-space:pre-line">${q.question}</div>
+      <div class="q-options">
+        ${q.options.map((opt, i) => `
+          <div class="q-option${ans === i ? ' selected' : ''}" onclick="selectAnswer(${i})" id="opt-${n}-${i}">
+            <span class="opt-bubble">${String.fromCharCode(65+i)}</span>
+            ${opt}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  updateQuizNav();
+  updateQDots();
+
+  const cur = document.getElementById('qCurrent');
+  if (cur) cur.textContent = n + 1;
+  const bar = document.getElementById('quizProgressBar');
+  if (bar) bar.style.width = ((n+1) / QUIZ_QUESTIONS.length * 100) + '%';
+}
+
+function selectAnswer(optIdx) {
+  if (quizState.submitted) return;
+  quizState.answers[quizState.current] = optIdx;
+  document.querySelectorAll('.q-option').forEach((o, i) => {
+    o.classList.toggle('selected', i === optIdx);
+  });
+  updateQDots();
+}
+
+function updateQDots() {
+  const dots = document.getElementById('qDots');
+  if (!dots) return;
+  dots.innerHTML = QUIZ_QUESTIONS.map((q, i) => {
+    let color = 'var(--border)';
+    if (i === quizState.current) color = 'var(--accent)';
+    else if (quizState.answers[i] !== null) color = '#10b981';
+    return `<div style="width:10px;height:10px;border-radius:50%;background:${color};cursor:pointer;" onclick="goToQuestion(${i})"></div>`;
+  }).join('');
+}
+
+function goToQuestion(idx) {
+  quizState.current = idx;
+  renderQuestion();
+}
+
+function updateQuizNav() {
+  const prev = document.getElementById('prevBtn');
+  const next = document.getElementById('nextBtn');
+  const submit = document.getElementById('submitBtn');
+  if (prev) prev.style.display = quizState.current > 0 ? '' : 'none';
+  if (next) next.style.display = quizState.current < QUIZ_QUESTIONS.length - 1 ? '' : 'none';
+  if (submit) submit.style.display = quizState.current === QUIZ_QUESTIONS.length - 1 ? '' : 'none';
+}
+
+function prevQuestion() {
+  if (quizState.current > 0) { quizState.current--; renderQuestion(); }
+}
+function nextQuestion() {
+  if (quizState.current < QUIZ_QUESTIONS.length - 1) { quizState.current++; renderQuestion(); }
+}
+
+function startTimer() {
+  if (quizState.timer) clearInterval(quizState.timer);
+  quizState.timer = setInterval(() => {
+    quizState.timeLeft--;
+    const timerEl = document.getElementById('quizTimer');
+    if (timerEl) {
+      const m = Math.floor(quizState.timeLeft / 60);
+      const s = quizState.timeLeft % 60;
+      timerEl.textContent = `⏱ ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      timerEl.classList.toggle('warning', quizState.timeLeft < 300);
+    }
+    if (quizState.timeLeft <= 0) { clearInterval(quizState.timer); submitQuiz(); }
+  }, 1000);
+}
+
+function submitQuiz() {
+  if (quizState.submitted) return;
+  clearInterval(quizState.timer);
+  quizState.submitted = true;
+
+  let correct = 0, wrong = 0, skip = 0;
+  quizState.answers.forEach((ans, i) => {
+    if (ans === null) skip++;
+    else if (ans === QUIZ_QUESTIONS[i].correct) correct++;
+    else wrong++;
+  });
+
+  const score = (correct * 2) + (wrong * -0.66);
+  const total = QUIZ_QUESTIONS.length * 2;
+  const pct = Math.round(score / total * 100);
+
+  document.getElementById('quizContainer').classList.remove('active');
+  const result = document.getElementById('resultCard');
+  result.classList.add('active');
+  document.getElementById('resultScore').textContent = score.toFixed(2);
+  document.getElementById('rs-total').textContent = total;
+  document.getElementById('rs-correct').textContent = correct;
+  document.getElementById('rs-wrong').textContent = wrong;
+  document.getElementById('rs-skip').textContent = skip;
+  document.getElementById('resultTitle').textContent = pct >= 70 ? '🎉 Excellent Performance!' : pct >= 50 ? '📈 Good Effort — Keep Improving' : '💪 Keep Practicing — You\'ll Get There!';
+  document.getElementById('resultSub').textContent = `You scored ${score.toFixed(2)} out of ${total} marks (${pct}% accuracy)`;
+
+  // Review
+  const reviewArea = document.getElementById('resultReviewArea');
+  reviewArea.innerHTML = `
+    <div style="margin-bottom:12px;font-size:14px;font-weight:700;color:var(--text-primary);">📋 Answer Review</div>
+    ${QUIZ_QUESTIONS.map((q, i) => {
+      const userAns = quizState.answers[i];
+      const isCorrect = userAns === q.correct;
+      const isSkip = userAns === null;
+      return `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <span style="font-size:16px;">${isSkip ? '⬜' : isCorrect ? '✅' : '❌'}</span>
+            <span style="font-size:12px;font-weight:700;color:var(--text-muted)">Q${i+1}</span>
+            <span class="badge ${isSkip ? '' : isCorrect ? 'badge-green' : 'badge-red'}" style="${isSkip ? 'background:var(--bg-primary);color:var(--text-muted)' : ''}">${isSkip ? 'Skipped' : isCorrect ? '+2.00' : '−0.66'}</span>
+          </div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin-bottom:6px;">${q.question.split('\n')[0]}</div>
+          <div style="font-size:11px;color:var(--text-muted);">Correct: <strong style="color:#059669">${q.options[q.correct]}</strong>${!isSkip && !isCorrect ? ` | Your answer: <strong style="color:#ef4444">${q.options[userAns]}</strong>` : ''}</div>
+        </div>
+      `;
+    }).join('')}
+  `;
+}
+
+function resetQuiz() {
+  quizState = { active: false, current: 0, answers: new Array(QUIZ_QUESTIONS.length).fill(null), timer: null, timeLeft: 3600, submitted: false };
+  showTestLanding();
+}
+
+// ============================================================
+// STUDY PLANNER
+// ============================================================
+let plannerOffset = 0;
+function initPlanner() {
+  renderPlannerDate();
+  renderTasks();
+  renderWeeklyOverview();
+  renderHoursChart();
+}
+function renderPlannerDate() {
+  const d = new Date();
+  d.setDate(d.getDate() + plannerOffset);
+  const label = document.getElementById('plannerDateLabel');
+  if (label) label.textContent = d.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+}
+function changeDay(delta) {
+  plannerOffset += delta;
+  renderPlannerDate();
+}
+function renderTasks() {
+  const list = document.getElementById('mainTaskList');
+  if (!list) return;
+  list.innerHTML = plannerTasks.map((t, i) => `
+    <div class="task-item${t.done ? ' completed' : ''}" id="task-${i}" onclick="toggleTask(${i})">
+      <div class="task-checkbox">${t.done ? '✓' : ''}</div>
+      <span class="task-priority tp-${t.priority}"></span>
+      <span class="task-label">${t.label}</span>
+      <span class="task-duration">${t.duration}</span>
+    </div>
+  `).join('');
+  updatePlannerProgress();
+}
+function toggleTask(i) {
+  plannerTasks[i].done = !plannerTasks[i].done;
+  renderTasks();
+}
+function updatePlannerProgress() {
+  const done = plannerTasks.filter(t => t.done).length;
+  const total = plannerTasks.length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  const fill = document.getElementById('mainProgressFill');
+  const pctEl = document.getElementById('plannerPct');
+  const countLabel = document.getElementById('taskCountLabel');
+  if (fill) fill.style.width = pct + '%';
+  if (pctEl) pctEl.textContent = pct + '%';
+  if (countLabel) countLabel.textContent = `${done}/${total} complete`;
+}
+function addTask() {
+  const input = document.getElementById('newTaskInput');
+  if (!input || !input.value.trim()) return;
+  plannerTasks.push({ label: input.value.trim(), done: false, duration: '30 min', priority: 'med' });
+  input.value = '';
+  renderTasks();
+  showToast('✅ Task added to your planner!');
+}
+function showAddTaskPrompt() {
+  const input = document.getElementById('newTaskInput');
+  if (input) { input.focus(); input.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+}
+function renderWeeklyOverview() {
+  const container = document.getElementById('weeklyOverview');
+  if (!container) return;
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const today = new Date();
+  const todayDate = today.getDate();
+  // Show current week
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - today.getDay());
+  container.innerHTML = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(startOfWeek);
+    d.setDate(startOfWeek.getDate() + i);
+    const isToday = d.getDate() === todayDate && d.getMonth() === today.getMonth();
+    const hasTasks = i > 1 && i < 6; // simulate tasks Mon-Fri
+    return `
+      <div class="day-pill${isToday ? ' today' : ''} ${hasTasks ? 'has-tasks' : 'empty'}" onclick="plannerOffset=${i - today.getDay()};renderPlannerDate()">
+        <div class="dp-day">${days[i]}</div>
+        <div class="dp-num">${d.getDate()}</div>
+        <div class="dp-dot"></div>
+      </div>
+    `;
+  }).join('');
+}
+function renderHoursChart() {
+  const container = document.getElementById('studyHoursChart');
+  if (!container) return;
+  const data = [
+    { day: 'Mon', hours: 5.5 },
+    { day: 'Tue', hours: 6.0 },
+    { day: 'Wed', hours: 4.5 },
+    { day: 'Thu', hours: 7.0 },
+    { day: 'Fri', hours: 5.0 },
+    { day: 'Sat', hours: 8.5 },
+    { day: 'Sun', hours: 3.5 }
+  ];
+  const max = Math.max(...data.map(d => d.hours));
+  container.innerHTML = data.map(d => `
+    <div class="hours-bar-row">
+      <span class="hbr-label">${d.day}</span>
+      <div class="hbr-bar-outer"><div class="hbr-bar-fill" style="width:${d.hours/max*100}%"></div></div>
+      <span class="hbr-val">${d.hours}h</span>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// RESOURCES / BOOKS
+// ============================================================
+let booksFilter = 'all';
+function initBooks() {
+  renderBooks();
+}
+function filterBooks(f, el) {
+  booksFilter = f;
+  document.querySelectorAll('.res-filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderBooks();
+}
+function renderBooks() {
+  const grid = document.getElementById('booksGrid');
+  if (!grid) return;
+  const filtered = booksFilter === 'all' ? BOOKS_DATA : BOOKS_DATA.filter(b => b.category === booksFilter);
+  grid.innerHTML = filtered.map(b => `
+    <div class="book-card">
+      <div class="book-cover" style="background:linear-gradient(135deg,${b.color}22,${b.color}44)">
+        <span style="font-size:56px;filter:drop-shadow(0 4px 8px ${b.color}44)">${b.icon}</span>
+      </div>
+      <div class="book-body">
+        <div class="book-title">${b.title}</div>
+        <div class="book-author">by ${b.author}</div>
+        <div class="book-meta">
+          ${b.tags.map(t => `<span class="badge badge-accent">${t}</span>`).join('')}
+          <span class="book-rating">★ ${b.rating}</span>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px;line-height:1.5;">${b.desc}</div>
+        <div class="book-actions">
+          <button class="book-btn primary" onclick="showToast('🔗 Redirecting to book resource...')">Read Online</button>
+          <button class="book-btn" onclick="showToast('📌 Bookmarked: ${b.title.replace(/'/g, '')}')">Save</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// BOOT
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+  // Hamburger
+  document.getElementById('hamburgerBtn').addEventListener('click', toggleSidebar);
+  document.getElementById('overlay').addEventListener('click', closeSidebar);
+
+  // Theme
+  document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+  // Search
+  initSearch();
+
+  // Init all sections that are built lazily
+  initHome();
+  initSubjects();
+  initCA();
+  initPYQ();
+  initBooks();
+  initPlanner();
+
+  // Activate home
+  navigateTo('home');
+});
+</script>
+</body>
+</html>
